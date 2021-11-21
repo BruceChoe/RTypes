@@ -36,6 +36,12 @@ Template.fileUpload.events({
     }
 });
 
+Template.invokeScript.events({
+    'click button'(event, instance) {
+        Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
+    }
+});
+
 saveFile = function(blob, name, path, type, callback) {
     var fileReader = new FileReader();
     var method;
