@@ -1,4 +1,4 @@
-datasets = "GBM"
+datasets = "KIRC"
 dataPath="D:\\CS 425 Project\\data\\"
 resultPath="D:\\CS 425 Project\\results\\"
 
@@ -45,13 +45,20 @@ print(W)
 print(group)
 #displayClustersWithHeatmap(W, group)
 
-png(paste(resultPath,"SNF_",datasets,".png"),   
+png(paste(resultPath,"SNF_HeatMap_",datasets,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
     res       = 1200,
     pointsize = 4)
 displayClustersWithHeatmap(W, group)
+dev.off()
+png(paste(resultPath,"SNF_Alluvial_",datasets,".png"),   
+    width     = 3.25,
+    height    = 3.25,
+    units     = "in",
+    res       = 1200,
+    pointsize = 4)
 plotAlluvial(W, 2:5, col="red")
 dev.off()
 gc()

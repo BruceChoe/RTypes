@@ -30,12 +30,20 @@ names(clustering) = colnames(affinity.graph)
 
 #displayClusters(affinity.graph, clustering)
 
-png(paste(resultPath,"NEMO_",datasets,".png"),   
+png(paste(resultPath,"SNF_HeatMap_",datasets,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
     res       = 1200,
     pointsize = 4)
-displayClustersWithHeatmap(affinity.graph, clustering)
+displayClustersWithHeatmap(W, group)
+dev.off()
+png(paste(resultPath,"SNF_Alluvial_",datasets,".png"),   
+    width     = 3.25,
+    height    = 3.25,
+    units     = "in",
+    res       = 1200,
+    pointsize = 4)
+plotAlluvial(W, 2:5, col="red")
 dev.off()
 gc()
