@@ -1,4 +1,4 @@
-datasets = "KIRC"
+dataset = "KIRC"
 dataPath="D:\\CS 425 Project\\data\\"
 resultPath="D:\\CS 425 Project\\results\\"
 
@@ -37,15 +37,15 @@ W = SNF(WList, K, NIT) # construct status matrix
 C = estimateNumberOfClustersGivenGraph(W)[[1]] 
 group = spectralClustering(W,C) # final subtype info
 
-list(cluster = group, rt = running_time)
-result$survival <- survival
+#list(cluster = group, rt = running_time)
+#result$survival <- survival
 
 #VISUALIZATION 
-print(W)
-print(group)
+#print(W)
+#print(group)
 #displayClustersWithHeatmap(W, group)
 
-png(paste(resultPath,"SNF_HeatMap_",datasets,".png"),   
+png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
@@ -53,7 +53,7 @@ png(paste(resultPath,"SNF_HeatMap_",datasets,".png"),
     pointsize = 4)
 displayClustersWithHeatmap(W, group)
 dev.off()
-png(paste(resultPath,"SNF_Alluvial_",datasets,".png"),   
+png(paste(resultPath,"SNF_Alluvial_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",

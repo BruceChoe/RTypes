@@ -1,4 +1,4 @@
-datasets = "GBM"
+dataset = "GBM"
 dataPath="D:\\CS 425 Project\\data\\"
 resultPath="D:\\CS 425 Project\\results\\"
 
@@ -30,7 +30,7 @@ names(clustering) = colnames(affinity.graph)
 
 #displayClusters(affinity.graph, clustering)
 
-png(paste(resultPath,"SNF_HeatMap_",datasets,".png"),   
+png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
@@ -38,7 +38,7 @@ png(paste(resultPath,"SNF_HeatMap_",datasets,".png"),
     pointsize = 4)
 displayClustersWithHeatmap(W, group)
 dev.off()
-png(paste(resultPath,"SNF_Alluvial_",datasets,".png"),   
+png(paste(resultPath,"SNF_Alluvial_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
