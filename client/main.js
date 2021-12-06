@@ -1,7 +1,6 @@
 // file uploding code courtesy of https://gist.github.com/dariocravero/3922137
 
 import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
 
 import './main.html';
 import { Meteor } from 'meteor/meteor';
@@ -21,7 +20,7 @@ Template.fileUpload.events({
 
 Template.invokeScript.events({
     'click button'(event, instance) {
-        Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
+        Meteor.call("invokeProcess", ["Rscript.exe", "../../../../../scripts/SNFSingleSetNoParallel.R"]);
     }
 });
 

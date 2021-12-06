@@ -1,0 +1,24 @@
+Data1                   Data1
+Data2                   Data2
+SNF                     Similarity Network Fusion
+affinityMatrix          Affinity matrix calculation
+calNMI                  Mutual Information calculation
+chiDist2                Pairwise Chi-squared distances
+concordanceNetworkNMI   Concordance Network NMI calculation
+dataL                   dataL
+displayClusters         Plot given similarity matrix by clusters
+displayClustersWithHeatmap
+                        Display the similarity matrix by clusters with
+                        some sample information
+dist2                   Pairwise squared Euclidean distances
+estimateNumberOfClustersGivenGraph
+                        Estimate Number Of Clusters Given Graph
+getColorsForGroups      Obtaining a vector of colors from a numeric
+                        vector of group
+groupPredict            Group Predict
+heatmapPlus             Display heatmap for clusters
+label                   Labels for dataL dataset
+plotAlluvial            Plot Alluvial
+rankFeaturesByNMI       Rank Features by NMI
+spectralClustering      Spectral Clustering
+standardNormalization   Standard Normalization

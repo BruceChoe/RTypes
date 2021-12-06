@@ -1,9 +1,14 @@
+print("Invoked")
+
 dataset = "KIRC"
-dataPath="D:\\CS 425 Project\\data\\"
-resultPath="D:\\CS 425 Project\\results\\"
+dataPath=".\\"
+resultPath=".\\"
+
+#install.packages("SNFtool", repos='http://cran.us.r-project.org')
 
 #library(PINSPlus)
 library(SNFtool)
+#needs("SNFtool")
 
 
 #load data into dataList
@@ -45,7 +50,7 @@ group = spectralClustering(W,C) # final subtype info
 #print(group)
 #displayClustersWithHeatmap(W, group)
 
-png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),   
+png(paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
@@ -53,7 +58,7 @@ png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),
     pointsize = 4)
 displayClustersWithHeatmap(W, group)
 dev.off()
-png(paste(resultPath,"SNF_Alluvial_",dataset,".png"),   
+png(paste(resultPath,"SNF_Alluvial_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
