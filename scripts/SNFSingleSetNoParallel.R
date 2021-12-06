@@ -1,5 +1,4 @@
-print("Invoked")
-
+# Adjust these 
 dataset = "KIRC"
 dataPath="..\\"
 resultPath=".\\"
@@ -26,7 +25,6 @@ survival=survival[patients,]
 dataList <- list(mydatGE, mydatME, mydatMI)
 
 #RUNSNF
-set.seed(1) # TODO: COMMENT THIS OUT OF PRODUCTION
 K = 20;		# number of neighbors, usually (10~30)
 alpha = 0.5;  	# hyperparameter, usually (0.3~0.8)
 NIT = 10; 	# Number of Iterations, usually (10~20)
@@ -51,7 +49,7 @@ group = spectralClustering(W,C) # final subtype info
 #print(group)
 #displayClustersWithHeatmap(W, group)
 
-png(paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),   
+png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
@@ -59,7 +57,7 @@ png(paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),
     pointsize = 4)
 displayClustersWithHeatmap(W, group)
 dev.off()
-png(paste(resultPath,"SNF_Alluvial_",dataset,".png",sep=""),   
+png(paste(resultPath,"SNF_Alluvial_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",

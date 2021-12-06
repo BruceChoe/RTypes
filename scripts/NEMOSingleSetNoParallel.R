@@ -1,4 +1,5 @@
-dataset = "GBM"
+# Adjust these
+dataset = "KIRC"
 dataPath="D:\\CS 425 Project\\data\\"
 resultPath="D:\\CS 425 Project\\results\\"
 
@@ -28,22 +29,20 @@ num.clusters = nemo.num.clusters(affinity.graph)
 clustering = spectralClustering(affinity.graph, num.clusters) 
 names(clustering) = colnames(affinity.graph)
 
-#displayClusters(affinity.graph, clustering)
-
-png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),   
+png(paste(resultPath,"NEMO_HeatMap_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
     res       = 1200,
     pointsize = 4)
-displayClustersWithHeatmap(W, group)
+displayClustersWithHeatmap(affinity.graph, clustering)
 dev.off()
-png(paste(resultPath,"SNF_Alluvial_",dataset,".png"),   
+png(paste(resultPath,"NEMO_Alluvial_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
     res       = 1200,
     pointsize = 4)
-plotAlluvial(W, 2:5, col="red")
+plotAlluvial(affinity.graph, 2:5, col="red")
 dev.off()
 gc()
