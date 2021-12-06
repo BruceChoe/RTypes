@@ -20,7 +20,7 @@ Template.fileUpload.events({
 
 Template.invokeScript.events({
     'click button'(event, instance) {
-        Meteor.call("invokeProcess", ["Rscript.exe", "../../../../../scripts/SNFSingleSetNoParallel.R"]);
+        Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
     }
 });
 

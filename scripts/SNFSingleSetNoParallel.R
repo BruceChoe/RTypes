@@ -1,7 +1,7 @@
 print("Invoked")
 
 dataset = "KIRC"
-dataPath=".\\"
+dataPath="..\\"
 resultPath=".\\"
 
 #install.packages("SNFtool", repos='http://cran.us.r-project.org')
@@ -10,6 +10,7 @@ resultPath=".\\"
 library(SNFtool)
 #needs("SNFtool")
 
+print("libloaded")
 
 #load data into dataList
 load(paste(dataPath, dataset, ".RData" ,sep=""))

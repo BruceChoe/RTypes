@@ -13,7 +13,8 @@
     "child_process": "^1.0.2",
     "imports": "^1.0.0",
     "jquery": "^3.6.0",
-    "meteor-node-stubs": "^1.1.0"
+    "meteor-node-stubs": "^1.1.0",
+    "node-powershell": "^5.0.1"
   },
   "meteor": {
     "mainModule": {

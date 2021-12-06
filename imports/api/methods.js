@@ -9,8 +9,6 @@ import childProcess from 'child_process';
 
 if (Meteor.isServer)
 {
-    import { R } from '@fridgerator/r-script'
-
     Meteor.methods({
         //saveFile: function(blob, name, path, encoding) {
         "saveFile"(blob, name, path, encoding) {
@@ -60,11 +58,7 @@ if (Meteor.isServer)
                 invocation += " " + tokens[i];
             }
             
-            console.log("sfaslkdfasd")
-            //let proc = childProcess.exec(invocation, invocationCallback);
-            //childProcess.spawn(tokens[0], tokens.slice(1))
-            let r = new R(tokens[1])
-            console.log(r.call())
+            let proc = childProcess.exec(invocation, invocationCallback);
         }
     });
 }
