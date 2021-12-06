@@ -1,7 +1,7 @@
 # Adjust these 
 dataset = "KIRC"
 dataPath="..\\"
-resultPath=".\\"
+resultPath="..\\..\\public\\"
 
 #install.packages("SNFtool", repos='http://cran.us.r-project.org')
 
@@ -49,7 +49,7 @@ group = spectralClustering(W,C) # final subtype info
 #print(group)
 #displayClustersWithHeatmap(W, group)
 
-png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),   
+png(paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
@@ -57,7 +57,7 @@ png(paste(resultPath,"SNF_HeatMap_",dataset,".png"),
     pointsize = 4)
 displayClustersWithHeatmap(W, group)
 dev.off()
-png(paste(resultPath,"SNF_Alluvial_",dataset,".png"),   
+png(paste(resultPath,"SNF_Alluvial_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
