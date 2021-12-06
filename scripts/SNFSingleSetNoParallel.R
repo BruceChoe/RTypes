@@ -1,6 +1,6 @@
 # Adjust these 
 dataset = "KIRC"
-dataPath="..\\"
+dataPath="..\\..\\public\\"
 resultPath="..\\..\\public\\"
 
 #install.packages("SNFtool", repos='http://cran.us.r-project.org')
