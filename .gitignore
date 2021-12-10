@@ -3,3 +3,5 @@ public/*
 !public/.dummy.txt
 scripts/data/*
 !scripts/data/.dummy.txt
+scripts/results/
+!scripts/results/.dummy.txt
