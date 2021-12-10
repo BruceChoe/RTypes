@@ -1,10 +1,5 @@
 // file uploding code courtesy of https://gist.github.com/dariocravero/3922137
 
-/**
- * TODO support other encodings:
- * http://stackoverflow.com/questions/7329128/how-to-write-binary-data-to-a-file-using-node-js
- */
-
 import childProcess from 'child_process';
 
 if (Meteor.isServer)

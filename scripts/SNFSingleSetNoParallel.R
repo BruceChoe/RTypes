@@ -3,11 +3,8 @@ dataset = "KIRC"
 dataPath="..\\..\\public\\"
 resultPath="..\\..\\public\\"
 
-#install.packages("SNFtool", repos='http://cran.us.r-project.org')
-
 #library(PINSPlus)
 library(SNFtool)
-#needs("SNFtool")
 
 print("libloaded")
 
