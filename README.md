@@ -12,7 +12,7 @@ The contents of this file are the same as the contents of `README.txt`.
 
 This project uses [Meteor](https://www.meteor.com/), a JavaScript web framework.
 As a result, the project files contain lots of boilerplate and system files.
-The files and directories of interest to the instructors are:
+The files and directories that may be of interest to the instructors are:
 * `client/`
   * `main.html` is the page shown in the demo that demonstrates the functionality of the project.
   * `main.js` contains the front-end JavaScript code
