@@ -8,6 +8,9 @@ library(SNFtool)
 
 #load data into dataList
 load(paste(dataPath, dataset, ".RData" ,sep=""))
+
+#Start: Code Integration
+#This format of data organization was code integrated from Dr.Nguyen's lab
 patients=rownames(survival)
 patients=intersect(patients,rownames(mydatGE))
 patients=intersect(patients,rownames(mydatME))
@@ -17,6 +20,7 @@ mydatME=as.matrix(mydatME[patients,])
 mydatMI=as.matrix(mydatMI[patients,])
 survival=survival[patients,]
 dataList <- list(mydatGE, mydatME, mydatMI)
+#End: Code Integration
 
 for (i in 1:length(dataList)) {
   data <- dataList[[i]]
