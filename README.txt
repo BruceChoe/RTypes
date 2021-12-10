@@ -7,7 +7,6 @@ Bruce Choe
 Erik Marsh
 
 === Notes for the Instructors ===
-
 The contents of this file are the same as the contents of README.md.
 
 This project uses Meteor (https://www.meteor.com/), a JavaScript web framework.
@@ -20,7 +19,6 @@ The files and directories that may be of interest to the instructors are:
   - The R scripts in scripts/
   - The test dataset scripts/KIRC.RData
   - test.py
-
 public/ is a directory that Meteor searches for HTML image embedding as well as where we direct our uploaded files.
 
 The repository for this project can be found at https://github.com/BruceChoe/RTypes.
