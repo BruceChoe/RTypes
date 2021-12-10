@@ -11,6 +11,8 @@ library(SNFtool)
 
 print("libloaded")
 
+#Start: Code Integration
+#This format of data organization was code integrated from Dr.Nguyen's lab
 #load data into dataList
 load(paste(dataPath, dataset, ".RData" ,sep=""))
 patients=rownames(survival)
@@ -21,6 +23,7 @@ mydatGE=as.matrix(mydatGE[patients,])
 mydatME=as.matrix(mydatME[patients,])
 mydatMI=as.matrix(mydatMI[patients,])
 survival=survival[patients,]
+#End: Code  Integration
 
 dataList <- list(mydatGE, mydatME, mydatMI)
 
