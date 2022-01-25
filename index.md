@@ -41,3 +41,5 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 [NEMO](https://github.com/Shamir-Lab/NEMO)
 
 [PINSplus](https://cran.r-project.org/web/packages/PINSPlus/index.html)
+
+[iCluster](https://cran.r-project.org/web/packages/iCluster/)
