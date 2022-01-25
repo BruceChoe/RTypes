@@ -34,3 +34,10 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 [Gene expression research enhanced by new open-source application](https://factor.niehs.nih.gov/2022/1/science-highlights/gene-expression-research/index.htm)
 
 [New cloud-based platform opens genomics data to all](https://www.sciencedaily.com/releases/2022/01/220112145118.htm)
+
+### Clustering Tools
+[SNFtool](https://cran.r-project.org/web/packages/SNFtool/index.html)
+
+[NEMO](https://github.com/Shamir-Lab/NEMO)
+
+[PINSplus](https://cran.r-project.org/web/packages/PINSPlus/index.html)
