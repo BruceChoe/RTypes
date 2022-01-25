@@ -14,4 +14,6 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 
 [Multi-omics Data Integration, Interpretation, and Its Application](https://journals.sagepub.com/doi/full/10.1177/1177932219899051)
 
-[The Cancer Genome Atlas Program](https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga)
+[Multi-Approach Bioinformatics Analysis of Curated Omics Data Provides a Gene Expression Panorama for Multiple Cancer Types](https://www.frontiersin.org/articles/10.3389/fgene.2020.586602/full)
+
+[The Cancer Genome Atlas Database](https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga)
