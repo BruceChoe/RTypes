@@ -11,3 +11,5 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 
 ## Project Domain
 [UNR SMRT](https://bioinformatics.cse.unr.edu/software/SMRT/)
+[Multi-omics Data Integration, Interpretation, and Its Application](https://journals.sagepub.com/doi/full/10.1177/1177932219899051)
+
