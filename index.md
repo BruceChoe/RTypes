@@ -13,6 +13,7 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 
 ### Textbook
 [A Little Book of R for Bioinformatics](https://a-little-book-of-r-for-bioinformatics.readthedocs.io/en/latest/#)
+[Applied Statistics for Bioninformatics Using R](https://cran.r-project.org/doc/contrib/Krijnen-IntroBioInfStatistics.pdf)
 
 ### Useful Websites
 [UNR SMRT Bioinformatics Tool](https://bioinformatics.cse.unr.edu/software/SMRT/)
