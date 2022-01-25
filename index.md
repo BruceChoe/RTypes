@@ -31,4 +31,6 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 [A catalogue of 1,167 genomes from the human gut archaeome](https://www.nature.com/articles/s41564-021-01020-9)
 
 ### News
+[Gene expression research enhanced by new open-source application](https://factor.niehs.nih.gov/2022/1/science-highlights/gene-expression-research/index.htm)
+
 [New cloud-based platform opens genomics data to all](https://www.sciencedaily.com/releases/2022/01/220112145118.htm)
