@@ -11,7 +11,7 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 
 ## Project Domain
 
-### Textbook
+### Textbooks
 [A Little Book of R for Bioinformatics](https://a-little-book-of-r-for-bioinformatics.readthedocs.io/en/latest/#)
 
 [Applied Statistics for Bioninformatics Using R](https://cran.r-project.org/doc/contrib/Krijnen-IntroBioInfStatistics.pdf)
