@@ -29,5 +29,6 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 [Multi-Approach Bioinformatics Analysis of Curated Omics Data Provides a Gene Expression Panorama for Multiple Cancer Types](https://www.frontiersin.org/articles/10.3389/fgene.2020.586602/full)
 
 [A catalogue of 1,167 genomes from the human gut archaeome](https://www.nature.com/articles/s41564-021-01020-9)
-### News
 
+### News
+[New cloud-based platform opens genomics data to all](https://www.sciencedaily.com/releases/2022/01/220112145118.htm)
