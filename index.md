@@ -1,13 +1,30 @@
 # RTypes
 CS 426 Senior Project in Computer Science, Spring 2022, at UNR, CSE Department
 
-Team 26: Bruce Choe, Erik Marsh, Elias Brezine, Cristian Ayala
+## People
 
-Advised by Tin Nguyen (University of Nevada, Reno)
+All of the following individuals are affiliated with the University of Nevada, Reno.
 
-Instructors: Sergiu Dascalu, David Feil-Seifer, Devrin Lee (All affiliated with the University of Nevada, Reno)
+### Team 26:
+
+* Cristian Ayala
+* Elias Brezine
+* Bruce Choe
+* Erik Marsh
+
+### Advisor
+
+* Dr. Tin Nguyen
+
+### Instructors
+
+* Dr. Sergiu Dascalu
+* Dr. David Feil-Seifer
+* Vinh Le
+* Devrin Lee
 
 ## Introduction
+
 RTypes is a web application that interfaces with existing disease subtyping tools using an accessible web interface. RTypes allows users to perform disease subtyping analysis on a user-uploaded dataset without requiring extensive programming knowledge. RTypes allows users to save and share finished analysis using an account system. RTypes emphasizes accessibility — interfacing with subtyping analysis tools is done through a simple graphical user interface that requires no coding knowledge. At most, RTypes will require users to upload clean data and adjust data parameters as needed. RTypes is built with Meteor (a JavaScript web framework) with PostgreSQL database formats. RTypes is designed from a functional perspective rather than object oriented. The purpose of RTypes is to provide an easy pipeline for subtyping analysis by aggregating multiple existing subtyping tools into one simple website. 
 
 ## Project Resources
