@@ -1,6 +1,6 @@
 # Adjust these 
 dataset = "KIRC"
-dataPath="..\\..\\public\\"
+dataPath="..\\..\\users\\test_user\\data\\"
 resultPath="..\\..\\public\\"
 
 #library(PINSPlus)
