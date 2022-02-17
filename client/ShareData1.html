@@ -1,70 +1,206 @@
 <head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
         <link rel="stylesheet" href="style.css">
-	<!-- Tittle -->
-		<title>RTypes-Alpha</title>
-	</head>
-	<body style="background-color: lightgray;">
-		<main>
-			<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-		<div class="container">
-		<a href="#" class="navbar-brand">Rtypes</a>
 
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
-			<span class="navbar-toggler-icon"></span>
-		</button>
 
-		<div class="collapse navbar-collapse" id="navmenu">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a href="index.html" class="nav-link">Home</a>
-				</li>
-				<li class="nav-item">
-					<a href="NewVisualization.html" class="nav-link">New Visualization</a>
-				</li>
-				<li class="nav-item">
-					<a href="SavedVisualization.html" class="nav-link">Saved Visualization</a>
-				</li>
-				<li class="nav-item">
-					<a href="login.html" class="nav-link">Login</a>
-				</li>
-			</ul>
-		</div>
-	</div>
-	</nav> <!-- End Navbar -->
-			<br>
-			<!-- ScatterPlot stuff -->
-			<section>
-				<table border="4" style="position:relative; left:1250px; top:150px" cellpadding="10">
-					<tr>
-						<th>Share</th>
-					</tr>
-				</table>
-				<br>
-				<table border="4" style="position:relative; left:1250px; top:150px" cellpadding="10">
-					<tr>
-						<th>Delete</th>
-					</tr>
-				</table>
-				<!-- Scatter Plot Placeholder -->
-				<table border="4" style="position:relative; left:550px; top:10px" cellpadding="250">
-					<tr>
-						<th>
-							Scatter Plot Place Holder
-						</th>
-					</tr>
-				</table>
-				<table border="3" style="position:relative; left: 750px; top: 20px" cellpadding="100">
-					<tr>
-						<th>
-							Description Box
-						</th>
-					</tr>
-				</table>
-			</section>
-		</main>
-	</body>
+           <!-- Bootstrap core CSS -->
+<!-- <link href="/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+
+            <!-- Favicons -->
+<link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+<link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
+<link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+<link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
+<meta name="theme-color" content="#7952b3">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="dashboard.css" rel="stylesheet">
+
+
+
+
+        
+  </head>
+  <body>
+    <main>
+      <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="index.html">RTypes</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="#">Sign out</a>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="index.html">
+              <span data-feather="home"></span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file"></span>
+              New Visualization
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="shopping-cart"></span>
+              Products
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="users"></span>
+              Account
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="bar-chart-2"></span>
+              Reports
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="layers"></span>
+              Integrations
+            </a>
+          </li>
+        </ul>
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Saved Visualizations</span>
+          <a class="link-secondary" href="#" aria-label="Add a new report">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a href="SavedVisualization1.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization One
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization2.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Two
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization3.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Three
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization4.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Four
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization5.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Five
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization6.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Six
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization7.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Seven
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization8.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Eight
+              </a>
+          </li>
+          <li class="nav-item">
+            <a href="SavedVisualization9.html" class="nav-link">
+              <span data-feather="file-text"></span>
+              Saved Visualization Nine
+              </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+      <br>
+      <!-- ScatterPlot stuff -->
+      <section>
+        <table border="4" style="position:relative; left:1250px; top:150px" cellpadding="10">
+          <tr>
+            <th>Share</th>
+          </tr>
+        </table>
+        <br>
+        <table border="4" style="position:relative; left:1250px; top:150px" cellpadding="10">
+          <tr>
+            <th>Delete</th>
+          </tr>
+        </table>
+        <!-- Scatter Plot Placeholder -->
+        <table border="4" style="position:relative; left:550px; top:10px" cellpadding="250">
+          <tr>
+            <th>
+              Scatter Plot Place Holder
+            </th>
+          </tr>
+        </table>
+        <table border="3" style="position:relative; left: 750px; top: 20px" cellpadding="100">
+          <tr>
+            <th>
+              Description Box
+            </th>
+          </tr>
+        </table>
+      </section>
+    </main>
+
+        <script src="/css/bootstrap.min.css" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script><script src="dashboard.js"></script>
+  </body>
