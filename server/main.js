@@ -11,4 +11,14 @@ Meteor.startup(() => {
       visualizations: []
     });
   }
+
+  Comms.drop();
+
+  Meteor.publish('users', () => {
+    return Users.find({});
+  });
+
+  Meteor.publish('comms', () => {
+    return Comms.find({});
+  });
 });
