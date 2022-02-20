@@ -12,8 +12,6 @@ Meteor.startup(() => {
     });
   }
 
-  Comms.drop();
-
   Meteor.publish('users', () => {
     return Users.find({});
   });
