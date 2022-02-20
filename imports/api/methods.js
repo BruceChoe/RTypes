@@ -7,6 +7,7 @@ import { Users } from '/imports/api/users';
 import childProcess from 'child_process';
 import fs from 'fs';
 import path from 'path';
+//import Date from 'date';
 import { Comms } from './comms';
 
 const rootPath = '../../../../../';
@@ -68,11 +69,12 @@ if (Meteor.isServer)
         "invokeProcess"(tokens) {        
             if (tokens.length === 0) return;
 
-            // Comms.insert({true: true});
-            // Meteor.publish(null, function() { return Comms.find({}); });
-            // console.log("sfsdf");
-
-            // return;
+            Comms.insert({
+                type: "visualization",
+                time: new Date().getTime(),
+                path: "/old/FDkcVr5acAEk04i.jfif"
+            });
+            return;
 
             let invocation = tokens[0];
             for (let i = 1; i < tokens.length; i++)
