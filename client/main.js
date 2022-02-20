@@ -1,30 +1,52 @@
 // file uploding code courtesy of https://gist.github.com/dariocravero/3922137
 
-import { Template } from 'meteor/templating';
+import "./main.html";
+import { Meteor } from "meteor/meteor";
+import { EJSON } from "meteor/ejson";
+import { Template } from "meteor/templating";
 
-import './main.html';
-import { Meteor } from 'meteor/meteor';
+import "/imports/api/methods";
+import { Users } from "/imports/api/users";
+import { Comms } from "/imports/api/comms";
 
-import '/imports/api/methods';
-import { Users } from '/imports/api/users';
-import { Comms } from '/imports/api/comms';
+function displayImage(imagePath) {
+    let imagePane = document.getElementById("imagePane");
+    let image = document.createElement("img");
+    image.setAttribute("src", imagePath);
+    imagePane.appendChild(image);
+}
 
-import { EJSON } from 'meteor/ejson';
-import { Tracker } from 'meteor/tracker';
+const startupTime = new Date().getTime();
 
+Meteor.subscribe("comms", {
+    onReady: (param) => {
+        console.log("subscribe onReady / " + param);
+    },
+    onStop: (param) => { console.log("subscribe onStop / " + param); }
+});
 
-// Meteor.subscribe('comms', {
-//     onReady: function() { console.log('rcv'); }
-// });
+let msgs = Comms.find();
+msgs.observe({
+    added: (entry) => {
+        // jesus christ javascript, if there is no time field this silently fails
+        if (entry.time < startupTime) return;
 
-// let msgs = Comms.find();
-// msgs.observe({
-//     added: function(id, obj) {
-//         console.log(id);
-//     }
-// });
+        console.log("Client received message of type " + entry.type + " at time " + entry.time);
 
-let handle = Meteor.subscribe("Comms");
+        switch (entry.type) {
+            case "process-invocation":
+                console.log("process invoked");
+                break;
+            case "visualization":
+                console.log("visualization ready");
+                displayImage(entry.path);
+                break;
+            default:
+                console.log("Unknown message type " + entry.type);
+                break;
+        }
+    }
+});
 
 Template.body.helpers({
     res() {
@@ -33,19 +55,15 @@ Template.body.helpers({
 });
 
 Template.testMkdir.events({
-    'click button': function(event, instance) {
+    "click button": function(event, instance) {
         Meteor.call("createUserDirectories", "test_user");
     }
 });
 
 Template.fileUpload.events({
-    'change input': function(ev) {
+    "change input": function(ev) {
         var file = ev.currentTarget.files[0];
-        // console.log(file.name);
-        // console.log((file.stream()));
-        // console.log(file instanceof Blob);
-
-        user = "test_user";
+        let user = "test_user";
 
         let res = Users.find({username: user}).fetch();
         console.log("fetched");
@@ -57,7 +75,7 @@ Template.fileUpload.events({
 });
 
 Template.invokeScript.events({
-    'click button'(event, instance) {
+    "click button"(event, instance) {
         Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
     }
 });
@@ -65,27 +83,27 @@ Template.invokeScript.events({
 saveFile = function(username, blob, name, path, type, callback) {
     var fileReader = new FileReader();
     var method;
-    var encoding = 'binary';
-    var type = type || 'binary';
+    var encoding = "binary";
+    var type = type || "binary";
 
     switch (type) {
-    case 'text':
-        // TODO Is this needed? If we're uploading content from file, yes, but if it's from an input/textarea I think not...
-        method = 'readAsText';
-        encoding = 'utf8';
+    case "text":
+        // TODO Is this needed? If we"re uploading content from file, yes, but if it"s from an input/textarea I think not...
+        method = "readAsText";
+        encoding = "utf8";
         break;
-    case 'binary': 
-        method = 'readAsBinaryString';
-        encoding = 'binary';
+    case "binary": 
+        method = "readAsBinaryString";
+        encoding = "binary";
         break;
     default:
-        method = 'readAsBinaryString';
-        encoding = 'binary';
+        method = "readAsBinaryString";
+        encoding = "binary";
         break;
     }
 
     fileReader.onload = function(file) {
-        Meteor.call('saveFile', username, file.target.result, name, path, encoding, callback);
+        Meteor.call("saveFile", username, file.target.result, name, path, encoding, callback);
     };
 
     fileReader[method](blob);
