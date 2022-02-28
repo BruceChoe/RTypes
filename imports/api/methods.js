@@ -7,6 +7,7 @@ import { Users } from '/imports/api/users';
 import childProcess from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import process from 'process';
 //import Date from 'date';
 import { Comms } from './comms';
 
@@ -29,11 +30,11 @@ if (Meteor.isServer)
                 }
             );
 
-            var path = cleanPath(path);
+            path = cleanPath(path);
             var fs = Npm.require('fs');
-            var name = cleanName(name || 'file');
-            var encoding = encoding || 'binary';
-            var chroot = Meteor.chroot || rootPath;
+            name = cleanName(name || 'file');
+            encoding = encoding || 'binary';
+            chroot = Meteor.chroot || rootPath;
 
             // console.log(name);
             // console.log(path);
@@ -65,24 +66,41 @@ if (Meteor.isServer)
             }
         },
 
-        // parameters: list of parameters, one token at a time
-        "invokeProcess"(tokens) {        
-            if (tokens.length === 0) return;
+        // paramsObject: a JSON object of parameters
+        "invokeProcess"(paramObject) {
+            console.log(paramObject);
+
+            let toolPath = "";
+            switch (paramObject.toolName)
+            {
+                case "SNFTool":
+                    console.log("SNF detected");
+                    toolPath = path.join(rootPath, "scripts", "SNFSingleSetNoParallel.R");
+                    console.log(toolPath);
+                    break;
+                case "NEMO":
+                    console.log("NEMO detected");
+                    toolPath = path.join(rootPath, "scripts", "NEMOSingleSetNoParallel.R");
+                    console.log(toolPath);
+                    break;
+                case "CIMLR":
+                    console.log("CIMLR detected");
+                    toolPath = path.join(rootPath, "scripts", "CIMLRSingleSetNoParallel.R");
+                    console.log(toolPath);
+                    break;
+                default:
+                    console.log("Unknown tool " + paramObject.toolName);
+                    return;
+            }
+
+            let invocation = "Rscript.exe --vanilla " + toolPath;
+            let proc = childProcess.exec(invocation, invocationCallback);
 
             Comms.insert({
                 type: "visualization",
                 time: new Date().getTime(),
                 path: "/old/FDkcVr5acAEk04i.jfif"
             });
-            return;
-
-            let invocation = tokens[0];
-            for (let i = 1; i < tokens.length; i++)
-            {
-                invocation += " " + tokens[i];
-            }
-            
-            let proc = childProcess.exec(invocation, invocationCallback);
         },
 
         // username: str
