@@ -1,7 +1,7 @@
 # Adjust these 
 dataset = "KIRC"
-dataPath="..\\..\\users\\test_user\\data\\"
-resultPath="..\\..\\public\\"
+dataPath="..\\..\\..\\..\\..\\users\\test_user\\data\\"
+resultPath="..\\..\\..\\..\\..\\users\\test_user\\visualizations\\"
 
 #library(PINSPlus)
 library(SNFtool)
