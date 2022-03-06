@@ -39,6 +39,11 @@ Meteor.subscribe("comms", {
     onStop:  (param) => { console.log("subscribe onStop / "  + param); }
 });
 
+Meteor.subscribe("users", {
+    onReady: (param) => { console.log("subscribe onReady / " + param); },
+    onStop:  (param) => { console.log("subscribe onStop / "  + param); }
+});
+
 let msgs = Comms.find();
 msgs.observe({
     added: (entry) => {
@@ -64,8 +69,8 @@ msgs.observe({
 
 Template.body.helpers({
     res() {
-        return EJSON.stringify(Users.find({}).fetch()[0]["test_user"]);
-    },
+        return EJSON.stringify(Users.find({}).fetch());
+    }
 });
 
 Template.testMkdir.events({
