@@ -64,6 +64,17 @@ msgs.observe({
                 console.log("visualization ready");
                 displayImage(entry.path);
                 break;
+            case "file-upload-complete":
+                console.log("file upload complete");
+                uploadedFile.set(
+                    {
+                        serverName: entry.serverName,
+                        createdAt: entry.time
+                    }
+                );
+                console.log(uploadedFile);
+                document.getElementById("generateButton").removeAttribute("disabled");
+                break;
             default:
                 console.log("Unknown message type " + entry.type);
                 break;
@@ -71,7 +82,19 @@ msgs.observe({
     }
 });
 
-Template.body.helpers({
+
+/// newVisualization
+Template.newVisualization.onCreated(() => {
+    selectedTool.set(0);
+    uploadedFile.set(
+        {
+            serverName: null,
+            createdAt: null
+        }
+    );
+});
+
+Template.newVisualization.helpers({
     res() {
         return EJSON.stringify(Users.find({}).fetch());
     }
