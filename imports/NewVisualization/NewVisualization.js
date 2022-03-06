@@ -121,7 +121,6 @@ Template.fileUpload.events({
         if (res.length != 0) {
             console.log("Saving file " + file.name + "...");
             saveFile(user, file, file.name, null, null, null);
-            console.log("saved");
         }
     }
 });
@@ -133,7 +132,7 @@ Template.invokeScript.events({
         let params = toolParams[selectedTool.get()];
         params.inputFile = uploadedFile.get().serverName;
         console.log(params);
-        Meteor.call("invokeProcess", params);
+        Meteor.call("invokeProcess", "test_user", uploadedFile.get().createdAt, params);
     }
 });
 

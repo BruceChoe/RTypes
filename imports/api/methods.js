@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { Users } from '/imports/api/users';
 import { Comms } from './comms';
+import { Visualizations } from '/imports/api/visualizations';
 
 import ChildProcess from 'child_process';
 import fs from 'fs';
@@ -17,43 +18,49 @@ if (Meteor.isServer)
 {
     Meteor.methods({
         saveFile(user, blob, name, path, encoding) {
-            name = "users\\" + user + "\\data\\" + name;
+            // yes, this isn't an accurate save time, but we need to do this to incorporate it into the filename
+            // unix timestamps are a pretty "good enough" strat for unique filenames
+            let saveTime = new Date().getTime();
+
+            name = "users\\" + user + "\\data\\" + saveTime.toString() + "-" + name;
             encoding = encoding || 'binary';
             chroot = Meteor.chroot || rootPath;
         
             // TODO Add file existance checks, etc...
-            // synchronous because we want fileWriteTime to be set when the upload finishes
+            // synchronous because we want databases to be updated when the upload finishes
             fs.writeFileSync(chroot + name, blob, encoding, (err) => {
                 if (err) {
                     throw (new Meteor.Error(500, 'Failed to save file.', err));
                 }
             });
 
-            let fileWriteTime = new Date().getTime();
-            console.log('The file ' + name + ' (' + encoding + ') was saved at ' + fileWriteTime);
+            console.log('The file ' + name + ' (' + encoding + ') was saved at ' + saveTime);
+
+            Visualizations.insert({
+                createdAt: saveTime,
+                images: []
+            });
     
             Users.update(
                 { username: user },
                 {
                     $push: {
-                        visualizations: {
-                            createdAt: fileWriteTime,
-                            source_dataset: name,
-                            visualizations: []
-                        }
+                        visualizations: saveTime
                     }
                 }
             );
 
             Comms.insert({
                 type: "file-upload-complete",
-                time: fileWriteTime,
+                time: saveTime,
                 serverName: name
             });
         },
 
         // paramsObject: a JSON object of parameters
-        invokeProcess(paramObject) {
+        invokeProcess(user, visualizationId, paramObject) {
+            console.log(user);
+            console.log(visualizationId);
             console.log(paramObject);
 
             let toolPath = "";
@@ -82,12 +89,22 @@ if (Meteor.isServer)
             let invocation = "Rscript.exe --vanilla " + toolPath;
             let proc = ChildProcess.exec(invocation, invocationCallback);
             proc.on("exit", () => {
-                bindEnv(() => // magic that needs to be here or else meteor throws a fit
+                bindEnv(() => { // magic that needs to be here or else meteor throws a fit
+                    Visualizations.update(
+                        { createdAt: visualizationId },
+                        {
+                            $push: {
+                                images: "/old/FDkcVr5acAEk04i.jfif"
+                            }
+                        }
+                    );
+
                     Comms.insert({
                         type: "visualization",
                         time: new Date().getTime(),
                         path: "/old/FDkcVr5acAEk04i.jfif"
-                    }));
+                    });
+                });
             });
         },
 

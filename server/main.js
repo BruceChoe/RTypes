@@ -23,5 +23,5 @@ Meteor.startup(() => {
 
   Meteor.publish('visualizations', () => {
     return Visualizations.find({});
-  })
+  });
 });
