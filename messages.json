@@ -1,15 +1,16 @@
-// a message is structured like this:
-{
-    "type": "message type",
-    "time": "timestamp of message sending, used to ignore old messages in the database",
-    "params": "what parameters does this message contain?"
-}
-
-
-// messages
-{
-    "type": [
-        "process-invocation", // debug purposes
-        "visualization" // when a visualization is ready to be served; params: "path": "image path"
-    ]
-}
+[
+    // a message is structured like this:
+    {
+        "type": "message type",
+        "time": "timestamp of message sending, used to ignore old messages in the database",
+        "params": "what parameters does this message contain?"
+    },
+    // messages
+    {
+        "type": [
+            "process-invocation", // debug purposes
+            "visualization", // when a visualization is ready to be served; params: "path": "image path"
+            "file-upload-complete" // params: { "serverName": "name of file on server" }
+        ]
+    }
+]
