@@ -7,7 +7,7 @@ args = commandArgs(trailingOnly=TRUE)
 library(SNFtool)
 
 print("libloaded")
-print(args[1])
+print(args)
 #Start: Code Integration
 #This format of data organization was code integrated from Dr.Nguyen's lab
 #load data into dataList
