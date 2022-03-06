@@ -16,7 +16,7 @@ const bindEnv = Meteor.bindEnvironment((callback) => {callback();});
 if (Meteor.isServer)
 {
     Meteor.methods({
-        "saveFile"(user, blob, name, path, encoding) {
+        saveFile(user, blob, name, path, encoding) {
             name = "users\\" + user + "\\data\\" + name;
             encoding = encoding || 'binary';
             chroot = Meteor.chroot || rootPath;
@@ -53,7 +53,7 @@ if (Meteor.isServer)
         },
 
         // paramsObject: a JSON object of parameters
-        "invokeProcess"(paramObject) {
+        invokeProcess(paramObject) {
             console.log(paramObject);
 
             let toolPath = "";
@@ -92,29 +92,26 @@ if (Meteor.isServer)
         },
 
         // username: str
-        "createUserDirectories"(username) {
+        createUserDirectories(username) {
             if (!username) return;
 
-            function errorCallback(err, username, subdirectrory) {
+            errorCallback = (err, username, subdirectrory) => {
                 if (err) {
                     console.log(err);
                 } else {
                     console.log(`User directory users/${username}/${subdirectrory} created successfully`);
                 }
-            }
+            };
 
             let userPath = path.join(path.join(rootPath, 'users'));
 
             fs.mkdir(userPath, (err) => { console.log(err); });
-
             fs.mkdir(path.join(userPath, username), (err) => {
                 errorCallback(err, username, "");
             });
-
             fs.mkdir(path.join(userPath, username, 'data'), (err) => {
                 errorCallback(err, username, "data");
             });
-
             fs.mkdir(path.join(userPath, username, 'visualizations'), (err) => {
                 errorCallback(err, username, "visualizations");
             });
@@ -122,19 +119,15 @@ if (Meteor.isServer)
     });
 }
 
-function invocationCallback(error, stdout, stderr) {
+invocationCallback = (error, stdout, stderr) => {
     if (error) {
-      console.error(`error: ${error.message}`);
+      console.error(`\n========== ERROR OUTPUT ==========\n\n${error.message}`);
       return;
     }
   
     if (stderr) {
-      console.error(`stderr: ${stderr}`);
+      console.error(`\n========== STDERR OUTPUT ==========\n\n${stderr}`);
     }
   
-    console.log(`stdout: ${stdout}`);
-}
-
-function errorCallback(error) {
-    console.log(error);
-}
+    console.log(`\n========== STDOUT OUTPUT ==========\n\n${stdout}`);
+};
