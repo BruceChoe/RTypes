@@ -3,13 +3,12 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Users } from '/imports/api/users';
+import { Comms } from './comms';
 
-import childProcess from 'child_process';
+import ChildProcess from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
-//import Date from 'date';
-import { Comms } from './comms';
 
 const rootPath = '../../../../../';
 
