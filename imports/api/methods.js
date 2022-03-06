@@ -92,13 +92,15 @@ if (Meteor.isServer)
                     return;
             }
 
-            let invocation = "Rscript.exe --vanilla " + toolPath;
-            let proc = childProcess.exec(invocation, invocationCallback);
-
-            Comms.insert({
-                type: "visualization",
-                time: new Date().getTime(),
-                path: "/old/FDkcVr5acAEk04i.jfif"
+            let invocation = "Rscript.exe --vanilla " + toolPath + " penis";
+            let proc = ChildProcess.exec(invocation, invocationCallback);
+            proc.on("exit", () => {
+                bindEnv(() => // magic that needs to be here or else meteor throws a fit
+                    Comms.insert({
+                        type: "visualization",
+                        time: new Date().getTime(),
+                        path: "/old/FDkcVr5acAEk04i.jfif"
+                    }));
             });
         },
 
