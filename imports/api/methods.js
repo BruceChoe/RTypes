@@ -3,26 +3,41 @@
 import { Meteor } from 'meteor/meteor';
 
 import { Users } from '/imports/api/users';
+import { Comms } from './comms';
 
-import childProcess from 'child_process';
+import ChildProcess from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import process from 'process';
-//import Date from 'date';
-import { Comms } from './comms';
 
 const rootPath = '../../../../../';
+const bindEnv = Meteor.bindEnvironment((callback) => {callback();});
 
 if (Meteor.isServer)
 {
     Meteor.methods({
-        "saveFile"(user, blob, name, path, encoding) {
+        saveFile(user, blob, name, path, encoding) {
             name = "users\\" + user + "\\data\\" + name;
+            encoding = encoding || 'binary';
+            chroot = Meteor.chroot || rootPath;
+        
+            // TODO Add file existance checks, etc...
+            // synchronous because we want fileWriteTime to be set when the upload finishes
+            fs.writeFileSync(chroot + name, blob, encoding, (err) => {
+                if (err) {
+                    throw (new Meteor.Error(500, 'Failed to save file.', err));
+                }
+            });
+
+            let fileWriteTime = new Date().getTime();
+            console.log('The file ' + name + ' (' + encoding + ') was saved at ' + fileWriteTime);
+    
             Users.update(
                 { username: user },
                 {
                     $push: {
                         visualizations: {
+                            createdAt: fileWriteTime,
                             source_dataset: name,
                             visualizations: []
                         }
@@ -30,44 +45,15 @@ if (Meteor.isServer)
                 }
             );
 
-            path = cleanPath(path);
-            var fs = Npm.require('fs');
-            name = cleanName(name || 'file');
-            encoding = encoding || 'binary';
-            chroot = Meteor.chroot || rootPath;
-
-            // console.log(name);
-            // console.log(path);
-            // console.log(encoding);
-
-            // Clean up the path. Remove any initial and final '/' -we prefix them-,
-            // any sort of attempt to go to the parent directory '..' and any empty directories in
-            // between '/////' - which may happen after removing '..'
-            path = chroot + (path ? '/' + path + '/' : '/');
-        
-            // TODO Add file existance checks, etc...
-            fs.writeFile(path + name, blob, encoding, function(err) {
-                if (err) {
-                    throw (new Meteor.Error(500, 'Failed to save file.', err));
-                } else {
-                    console.log('The file ' + name + ' (' + encoding + ') was saved to ' + path);
-                }
-            }); 
-    
-            function cleanPath(str) {
-                if (str) {
-                    return str.replace(/\.\./g,'').replace(/\/+/g,'').
-                        replace(/^\/+/,'').replace(/\/+$/,'');
-                }
-            }
-
-            function cleanName(str) {
-                return str.replace(/\.\./g,'').replace(/\//g,'');
-            }
+            Comms.insert({
+                type: "file-upload-complete",
+                time: fileWriteTime,
+                serverName: name
+            });
         },
 
         // paramsObject: a JSON object of parameters
-        "invokeProcess"(paramObject) {
+        invokeProcess(paramObject) {
             console.log(paramObject);
 
             let toolPath = "";
@@ -93,40 +79,39 @@ if (Meteor.isServer)
                     return;
             }
 
-            let invocation = "Rscript.exe --vanilla " + toolPath;
-            let proc = childProcess.exec(invocation, invocationCallback);
-
-            Comms.insert({
-                type: "visualization",
-                time: new Date().getTime(),
-                path: "/old/FDkcVr5acAEk04i.jfif"
+            let invocation = "Rscript.exe --vanilla " + toolPath + " penis";
+            let proc = ChildProcess.exec(invocation, invocationCallback);
+            proc.on("exit", () => {
+                bindEnv(() => // magic that needs to be here or else meteor throws a fit
+                    Comms.insert({
+                        type: "visualization",
+                        time: new Date().getTime(),
+                        path: "/old/FDkcVr5acAEk04i.jfif"
+                    }));
             });
         },
 
         // username: str
-        "createUserDirectories"(username) {
+        createUserDirectories(username) {
             if (!username) return;
 
-            function errorCallback(err, username, subdirectrory) {
+            errorCallback = (err, username, subdirectrory) => {
                 if (err) {
                     console.log(err);
                 } else {
                     console.log(`User directory users/${username}/${subdirectrory} created successfully`);
                 }
-            }
+            };
 
             let userPath = path.join(path.join(rootPath, 'users'));
 
             fs.mkdir(userPath, (err) => { console.log(err); });
-
             fs.mkdir(path.join(userPath, username), (err) => {
                 errorCallback(err, username, "");
             });
-
             fs.mkdir(path.join(userPath, username, 'data'), (err) => {
                 errorCallback(err, username, "data");
             });
-
             fs.mkdir(path.join(userPath, username, 'visualizations'), (err) => {
                 errorCallback(err, username, "visualizations");
             });
@@ -134,19 +119,15 @@ if (Meteor.isServer)
     });
 }
 
-function invocationCallback(error, stdout, stderr) {
+invocationCallback = (error, stdout, stderr) => {
     if (error) {
-      console.error(`error: ${error.message}`);
+      console.error(`\n========== ERROR OUTPUT ==========\n\n${error.message}`);
       return;
     }
   
     if (stderr) {
-      console.error(`stderr: ${stderr}`);
+      console.error(`\n========== STDERR OUTPUT ==========\n\n${stderr}`);
     }
   
-    console.log(`stdout: ${stdout}`);
-}
-
-function errorCallback(error) {
-    console.log(error);
-}
+    console.log(`\n========== STDOUT OUTPUT ==========\n\n${stdout}`);
+};

@@ -17,24 +17,33 @@ function displayImage(imagePath) {
 
 const startupTime = new Date().getTime();
 
-const SNFParams = {
-    toolName: "SNFTool",
-    inputFile: "",
-    outputFilePrefix: "SNF",
-    neighbors: "",
-    hyperparameter: "",
-    numberIterations: ""
-};
+let selectedTool = new ReactiveVar(null);
+let uploadedFile = new ReactiveVar(null);
 
-const NEMOParams = {
-    toolName: "NEMO",
-    inputFile: "",
-    outputFilePrefix: "NEMO",
-    clusters: "",
-    neighbors: ""
-};
+const toolParams = [
+    {
+        toolName: "SNFTool",
+        inputFile: null,
+        outputFilePrefix: "SNF",
+        neighbors: null,
+        hyperparameter: null,
+        numberIterations: null
+    },
+    {
+        toolName: "NEMO",
+        inputFile: null,
+        outputFilePrefix: "NEMO",
+        clusters: null,
+        neighbors: null
+    }
+];
 
 Meteor.subscribe("comms", {
+    onReady: (param) => { console.log("subscribe onReady / " + param); },
+    onStop:  (param) => { console.log("subscribe onStop / "  + param); }
+});
+
+Meteor.subscribe("users", {
     onReady: (param) => { console.log("subscribe onReady / " + param); },
     onStop:  (param) => { console.log("subscribe onStop / "  + param); }
 });
@@ -55,6 +64,17 @@ msgs.observe({
                 console.log("visualization ready");
                 displayImage(entry.path);
                 break;
+            case "file-upload-complete":
+                console.log("file upload complete");
+                uploadedFile.set(
+                    {
+                        serverName: entry.serverName,
+                        createdAt: entry.time
+                    }
+                );
+                console.log(uploadedFile);
+                document.getElementById("generateButton").removeAttribute("disabled");
+                break;
             default:
                 console.log("Unknown message type " + entry.type);
                 break;
@@ -62,18 +82,34 @@ msgs.observe({
     }
 });
 
-Template.body.helpers({
-    res() {
-        return EJSON.stringify(Users.find({}).fetch()[0]["test_user"]);
-    },
+
+/// newVisualization
+Template.newVisualization.onCreated(() => {
+    selectedTool.set(0);
+    uploadedFile.set(
+        {
+            serverName: null,
+            createdAt: null
+        }
+    );
 });
 
+Template.newVisualization.helpers({
+    res() {
+        return EJSON.stringify(Users.find({}).fetch());
+    }
+});
+
+
+/// TESTMKDIR
 Template.testMkdir.events({
     "click button": (event, instance) => {
         Meteor.call("createUserDirectories", "test_user");
     }
 });
 
+
+/// FILEUPLOAD
 Template.fileUpload.events({
     "change input": (ev) => {
         let file = ev.currentTarget.files[0];
@@ -82,28 +118,39 @@ Template.fileUpload.events({
         let res = Users.find({username: user}).fetch();
         console.log(Users);
         console.log("fetched: " + res);
-        //if (res.length != 0) { // this check doesn't actually work, res is empty
+        if (res.length != 0) {
             console.log("Saving file " + file.name + "...");
             saveFile(user, file, file.name, null, null, null);
             console.log("saved");
-        //}
+        }
     }
 });
 
+
+/// INVOKESCRIPT
 Template.invokeScript.events({
     "click button"(event, instance) {
-        //Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
-        Meteor.call("invokeProcess", SNFParams);
+        let params = toolParams[selectedTool.get()];
+        params.inputFile = uploadedFile.get().serverName;
+        console.log(params);
+        Meteor.call("invokeProcess", params);
     }
 });
 
+
+/// TOOLS
+// todo make sure these indices are consistent with the switch staement in the generate visualization thingy
 Template.tools.helpers({
-    toolNames: [
-        {name: "SNFTool"},
-        {name: "KIRC"},
-        {name: "CIMLR"}
-    ]
+    toolNames: toolParams.map(t => {return {name: t.toolName}; })
 });
+
+Template.tools.events({
+    "change select"(event, instance) {
+        selectedTool.set(instance.firstNode.options.selectedIndex);
+    }
+});
+
+
 
 saveFile = (username, blob, name, path, type, callback) => {
     let fileReader = new FileReader();
