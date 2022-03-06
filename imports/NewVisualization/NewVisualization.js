@@ -107,8 +107,10 @@ Template.fileUpload.events({
 /// INVOKESCRIPT
 Template.invokeScript.events({
     "click button"(event, instance) {
-        //Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
-        Meteor.call("invokeProcess", SNFParams);
+        let params = toolParams[selectedTool.get()];
+        params.inputFile = uploadedFile.get().serverName;
+        console.log(params);
+        Meteor.call("invokeProcess", params);
     }
 });
 
@@ -116,12 +118,16 @@ Template.invokeScript.events({
 /// TOOLS
 // todo make sure these indices are consistent with the switch staement in the generate visualization thingy
 Template.tools.helpers({
-    toolNames: [
-        {name: "SNFTool"},
-        {name: "KIRC"},
-        {name: "CIMLR"}
-    ]
+    toolNames: toolParams.map(t => {return {name: t.toolName}; })
 });
+
+Template.tools.events({
+    "change select"(event, instance) {
+        selectedTool.set(instance.firstNode.options.selectedIndex);
+    }
+});
+
+
 
 saveFile = (username, blob, name, path, type, callback) => {
     let fileReader = new FileReader();
