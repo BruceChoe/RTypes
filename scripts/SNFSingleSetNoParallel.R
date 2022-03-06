@@ -2,7 +2,7 @@
 dataset = "KIRC"
 dataPath="..\\..\\..\\..\\..\\users\\test_user\\data\\"
 resultPath="..\\..\\..\\..\\..\\users\\test_user\\visualizations\\"
-args = commandArgs(trailingOnly=TRUE)
+args = commandArgs(trailingOnly=FALSE)
 #library(PINSPlus)
 library(SNFtool)
 
