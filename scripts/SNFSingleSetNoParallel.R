@@ -2,12 +2,12 @@
 dataset = "KIRC"
 dataPath="..\\..\\..\\..\\..\\users\\test_user\\data\\"
 resultPath="..\\..\\..\\..\\..\\users\\test_user\\visualizations\\"
-
+args = commandArgs(trailingOnly=TRUE)
 #library(PINSPlus)
 library(SNFtool)
 
 print("libloaded")
-
+print(args[1])
 #Start: Code Integration
 #This format of data organization was code integrated from Dr.Nguyen's lab
 #load data into dataList
