@@ -79,7 +79,7 @@ if (Meteor.isServer)
                     return;
             }
 
-            let invocation = "Rscript.exe --vanilla " + toolPath + " penis";
+            let invocation = "Rscript.exe --vanilla " + toolPath;
             let proc = ChildProcess.exec(invocation, invocationCallback);
             proc.on("exit", () => {
                 bindEnv(() => // magic that needs to be here or else meteor throws a fit
