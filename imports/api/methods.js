@@ -11,6 +11,7 @@ import path from 'path';
 import process from 'process';
 
 const rootPath = '../../../../../';
+const bindEnv = Meteor.bindEnvironment((callback) => {callback();});
 
 if (Meteor.isServer)
 {
