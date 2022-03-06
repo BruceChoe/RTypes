@@ -17,22 +17,26 @@ function displayImage(imagePath) {
 
 const startupTime = new Date().getTime();
 
-const SNFParams = {
-    toolName: "SNFTool",
-    inputFile: "",
-    outputFilePrefix: "SNF",
-    neighbors: "",
-    hyperparameter: "",
-    numberIterations: ""
-};
+let selectedTool = new ReactiveVar(null);
+let uploadedFile = new ReactiveVar(null);
 
-const NEMOParams = {
-    toolName: "NEMO",
-    inputFile: "",
-    outputFilePrefix: "NEMO",
-    clusters: "",
-    neighbors: ""
-};
+const toolParams = [
+    {
+        toolName: "SNFTool",
+        inputFile: null,
+        outputFilePrefix: "SNF",
+        neighbors: null,
+        hyperparameter: null,
+        numberIterations: null
+    },
+    {
+        toolName: "NEMO",
+        inputFile: null,
+        outputFilePrefix: "NEMO",
+        clusters: null,
+        neighbors: null
+    }
+];
 
 Meteor.subscribe("comms", {
     onReady: (param) => { console.log("subscribe onReady / " + param); },
