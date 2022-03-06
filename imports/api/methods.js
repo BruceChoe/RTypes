@@ -18,11 +18,26 @@ if (Meteor.isServer)
     Meteor.methods({
         "saveFile"(user, blob, name, path, encoding) {
             name = "users\\" + user + "\\data\\" + name;
+            encoding = encoding || 'binary';
+            chroot = Meteor.chroot || rootPath;
+        
+            // TODO Add file existance checks, etc...
+            // synchronous because we want fileWriteTime to be set when the upload finishes
+            fs.writeFileSync(chroot + name, blob, encoding, (err) => {
+                if (err) {
+                    throw (new Meteor.Error(500, 'Failed to save file.', err));
+                }
+            });
+
+            let fileWriteTime = new Date().getTime();
+            console.log('The file ' + name + ' (' + encoding + ') was saved at ' + fileWriteTime);
+    
             Users.update(
                 { username: user },
                 {
                     $push: {
                         visualizations: {
+                            createdAt: fileWriteTime,
                             source_dataset: name,
                             visualizations: []
                         }
@@ -30,40 +45,11 @@ if (Meteor.isServer)
                 }
             );
 
-            path = cleanPath(path);
-            var fs = Npm.require('fs');
-            name = cleanName(name || 'file');
-            encoding = encoding || 'binary';
-            chroot = Meteor.chroot || rootPath;
-
-            // console.log(name);
-            // console.log(path);
-            // console.log(encoding);
-
-            // Clean up the path. Remove any initial and final '/' -we prefix them-,
-            // any sort of attempt to go to the parent directory '..' and any empty directories in
-            // between '/////' - which may happen after removing '..'
-            path = chroot + (path ? '/' + path + '/' : '/');
-        
-            // TODO Add file existance checks, etc...
-            fs.writeFile(path + name, blob, encoding, function(err) {
-                if (err) {
-                    throw (new Meteor.Error(500, 'Failed to save file.', err));
-                } else {
-                    console.log('The file ' + name + ' (' + encoding + ') was saved to ' + path);
-                }
-            }); 
-    
-            function cleanPath(str) {
-                if (str) {
-                    return str.replace(/\.\./g,'').replace(/\/+/g,'').
-                        replace(/^\/+/,'').replace(/\/+$/,'');
-                }
-            }
-
-            function cleanName(str) {
-                return str.replace(/\.\./g,'').replace(/\//g,'');
-            }
+            Comms.insert({
+                type: "file-upload-complete",
+                time: fileWriteTime,
+                serverName: name
+            });
         },
 
         // paramsObject: a JSON object of parameters
