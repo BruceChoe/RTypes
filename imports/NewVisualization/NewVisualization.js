@@ -73,12 +73,16 @@ Template.body.helpers({
     }
 });
 
+
+/// TESTMKDIR
 Template.testMkdir.events({
     "click button": (event, instance) => {
         Meteor.call("createUserDirectories", "test_user");
     }
 });
 
+
+/// FILEUPLOAD
 Template.fileUpload.events({
     "change input": (ev) => {
         let file = ev.currentTarget.files[0];
@@ -87,14 +91,16 @@ Template.fileUpload.events({
         let res = Users.find({username: user}).fetch();
         console.log(Users);
         console.log("fetched: " + res);
-        //if (res.length != 0) { // this check doesn't actually work, res is empty
+        if (res.length != 0) {
             console.log("Saving file " + file.name + "...");
             saveFile(user, file, file.name, null, null, null);
             console.log("saved");
-        //}
+        }
     }
 });
 
+
+/// INVOKESCRIPT
 Template.invokeScript.events({
     "click button"(event, instance) {
         //Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
@@ -102,6 +108,9 @@ Template.invokeScript.events({
     }
 });
 
+
+/// TOOLS
+// todo make sure these indices are consistent with the switch staement in the generate visualization thingy
 Template.tools.helpers({
     toolNames: [
         {name: "SNFTool"},
