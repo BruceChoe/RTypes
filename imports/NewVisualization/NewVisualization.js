@@ -25,6 +25,7 @@ const toolParams = [
         toolName: "SNFTool",
         inputFile: null,
         outputFilePrefix: "SNF",
+        timestamp: null,
         neighbors: null,
         hyperparameter: null,
         numberIterations: null
@@ -33,6 +34,7 @@ const toolParams = [
         toolName: "NEMO",
         inputFile: null,
         outputFilePrefix: "NEMO",
+        timestamp: null,
         clusters: null,
         neighbors: null
     }
@@ -131,6 +133,7 @@ Template.invokeScript.events({
     "click button"(event, instance) {
         let params = toolParams[selectedTool.get()];
         params.inputFile = uploadedFile.get().serverName;
+        params.timestamp = uploadedFile.get().createdAt;
         console.log(params);
         Meteor.call("invokeProcess", "test_user", uploadedFile.get().createdAt, params);
     }
