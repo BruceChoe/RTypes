@@ -7,7 +7,7 @@ import { Comms } from './comms';
 import { Visualizations } from '/imports/api/visualizations';
 
 import ChildProcess from 'child_process';
-import fs from 'fs';
+import fs, { readdirSync } from 'fs';
 import path from 'path';
 import process from 'process';
 
@@ -86,10 +86,22 @@ if (Meteor.isServer)
                     return;
             }
 
-            let invocation = "Rscript.exe --vanilla " + toolPath;
+            let fullOutputFilePrefix = rootPath + paramObject.timestamp + "-" + paramObject.outputFilePrefix;
+            
+            let invocation = "Rscript.exe --vanilla " +
+                toolPath + " " + // tool
+                rootPath + paramObject.inputFile + " " + // input file path
+                fullOutputFilePrefix;
             let proc = ChildProcess.exec(invocation, invocationCallback);
             proc.on("exit", () => {
                 bindEnv(() => { // magic that needs to be here or else meteor throws a fit
+                    console.log("PATH: " + path.join(rootPath, "users", user, "visualizations"));
+                    let visualizationList = readdirSync(path.join(rootPath, "users", user, "visualizations"));
+
+                    generatedVisualizations = visualizationList.filter(f => f.startsWith(fullOutputFilePrefix));
+                    console.log("initial files: " + visualizationList);
+                    console.log("visualization generated: " + generatedVisualizations);
+
                     Visualizations.update(
                         { createdAt: visualizationId },
                         {
