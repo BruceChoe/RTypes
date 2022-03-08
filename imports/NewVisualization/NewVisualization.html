@@ -120,12 +120,19 @@
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <!-- {{> testMkdir }} -->
         <!-- {{ res }} -->
-        {{> fileUpload }}
+        
         <section>
-          {{> tools }}
-          {{> invokeScript }}
-          {{> saveVisualization }}
-          <div id="imagePane">
+          <div class="row">
+            <div class="col">
+              {{> fileUpload }} <br>
+              {{> tools }} <br>
+              {{> invokeScript }}
+            </div>
+            <div class="col-10" id="imagePane">
+            </div>
+            <div class="col">
+              {{> saveVisualization }}
+            </div>
           </div>
         </section>
       </main>
@@ -136,8 +143,10 @@
 </template>
 
 <template name="fileUpload">
-	<p>Upload input file...</p>
-	<input type="file"/>
+  <div class="col-2">
+	  <p>Upload input file...</p>
+	  <input type="file"/>
+  </div>
 </template>
 
 <template name="invokeScript">
