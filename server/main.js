@@ -4,6 +4,8 @@ import { Users } from '/imports/api/users';
 import { Comms } from '/imports/api/comms';
 import { Visualizations } from '/imports/api/visualizations';
 
+import '/server/serverRoutes.js';
+
 Meteor.startup(() => {
   if (Users.find({}).count() === 0) {
     Users.insert({
