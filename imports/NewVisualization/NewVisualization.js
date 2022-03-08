@@ -8,11 +8,15 @@ import { Users } from "/imports/api/users";
 import { Comms } from "/imports/api/comms";
 
 // serving images via router? see here https://github.com/iron-meteor/iron-router/issues/1565
-function displayImage(imagePath) {
-    let imagePane = document.getElementById("imagePane");
-    let image = document.createElement("img");
-    image.setAttribute("src", imagePath);
-    imagePane.appendChild(image);
+// imagePaths: list
+function displayImage(imagePaths) {
+    imagePaths.forEach((path) => {
+        let imagePane = document.getElementById("imagePane");
+        let image = document.createElement("img");
+        image.setAttribute("src", path);
+        image.setAttribute("class", "img-fluid");
+        imagePane.appendChild(image);
+    });
 }
 
 const startupTime = new Date().getTime();
@@ -64,7 +68,7 @@ msgs.observe({
                 break;
             case "visualization":
                 console.log("visualization ready");
-                displayImage(entry.path);
+                displayImage(entry.pathList);
                 break;
             case "file-upload-complete":
                 console.log("file upload complete");

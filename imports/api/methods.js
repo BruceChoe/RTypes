@@ -86,19 +86,23 @@ if (Meteor.isServer)
                     return;
             }
 
-            let fullOutputFilePrefix = rootPath + paramObject.timestamp + "-" + paramObject.outputFilePrefix;
+            let outputFilePrefix = paramObject.timestamp + "-" + paramObject.outputFilePrefix;
+            let outputFileFolder = rootPath + "users/" + user + "/visualizations/";
+            let fullOutputFilePath = outputFileFolder + outputFilePrefix;
             
             let invocation = "Rscript.exe --vanilla " +
                 toolPath + " " + // tool
                 rootPath + paramObject.inputFile + " " + // input file path
-                fullOutputFilePrefix;
+                fullOutputFilePath;
             let proc = ChildProcess.exec(invocation, invocationCallback);
             proc.on("exit", () => {
                 bindEnv(() => { // magic that needs to be here or else meteor throws a fit
                     console.log("PATH: " + path.join(rootPath, "users", user, "visualizations"));
                     let visualizationList = readdirSync(path.join(rootPath, "users", user, "visualizations"));
+                    let serverImagePath = "/img/" + user + "/";
 
-                    generatedVisualizations = visualizationList.filter(f => f.startsWith(fullOutputFilePrefix));
+                    generatedVisualizations = visualizationList.filter(f => f.startsWith(outputFilePrefix));
+                    generatedVisualizations = generatedVisualizations.map(f => serverImagePath + f);
                     console.log("initial files: " + visualizationList);
                     console.log("visualization generated: " + generatedVisualizations);
 
@@ -106,7 +110,7 @@ if (Meteor.isServer)
                         { createdAt: visualizationId },
                         {
                             $push: {
-                                images: "/old/FDkcVr5acAEk04i.jfif"
+                                images: { $each: generatedVisualizations }
                             }
                         }
                     );
@@ -114,7 +118,7 @@ if (Meteor.isServer)
                     Comms.insert({
                         type: "visualization",
                         time: new Date().getTime(),
-                        path: "/old/FDkcVr5acAEk04i.jfif"
+                        pathList: generatedVisualizations
                     });
                 });
             });

@@ -9,7 +9,7 @@
     {
         "type": [
             "process-invocation", // debug purposes
-            "visualization", // when a visualization is ready to be served; params: "path": "image path"
+            "visualization", // when a visualization is ready to be served; params: "pathList": "image path list"
             "file-upload-complete" // params: { "serverName": "name of file on server" }
         ]
     }
