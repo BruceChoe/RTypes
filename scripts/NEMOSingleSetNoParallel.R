@@ -1,13 +1,14 @@
 # Adjust these
 dataset = "KIRC"
-dataPath="D:\\CS 425 Project\\data\\"
-resultPath="D:\\CS 425 Project\\results\\"
+args = commandArgs(trailingOnly=FALSE)
+dataPath = args[7]
+resultPath = args[8]
 
 library(NEMO)
 library(SNFtool)
 
 #load data into dataList
-load(paste(dataPath, dataset, ".RData" ,sep=""))
+load(dataPath)
 
 #Start: Code Integration
 #This format of data organization was code integrated from Dr.Nguyen's lab
@@ -33,7 +34,7 @@ num.clusters = nemo.num.clusters(affinity.graph)
 clustering = spectralClustering(affinity.graph, num.clusters) 
 names(clustering) = colnames(affinity.graph)
 
-png(paste(resultPath,"NEMO_HeatMap_",dataset,".png"),   
+png(paste(resultPath, "NEMO_Heatmap.png", sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
@@ -41,7 +42,7 @@ png(paste(resultPath,"NEMO_HeatMap_",dataset,".png"),
     pointsize = 4)
 displayClustersWithHeatmap(affinity.graph, clustering)
 dev.off()
-png(paste(resultPath,"NEMO_Alluvial_",dataset,".png"),   
+png(paste(resultPath,"NEMO_Alluvial.png", sep=""),
     width     = 3.25,
     height    = 3.25,
     units     = "in",
