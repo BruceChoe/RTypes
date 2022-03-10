@@ -10,7 +10,8 @@
         "type": [
             "process-invocation", // debug purposes
             "visualization", // when a visualization is ready to be served; params: "pathList": "image path list"
-            "file-upload-complete" // params: { "serverName": "name of file on server" }
+            "file-upload-complete", // params: { "serverName": "name of file on server" }
+            "file-upload-progress"  // params: { "saved": "#bytes saved", "total": "total #bytes"}
         ]
     }
 ]
