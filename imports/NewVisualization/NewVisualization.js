@@ -69,6 +69,8 @@ msgs.observe({
             case "visualization":
                 console.log("visualization ready");
                 displayImage(entry.pathList);
+                let progressBar = document.getElementById("invokeScript-spinner");
+                progressBar.removeAttribute("class");
                 break;
             case "file-upload-complete":
                 console.log("file upload complete");
@@ -118,6 +120,9 @@ Template.testMkdir.events({
 /// FILEUPLOAD
 Template.fileUpload.events({
     "change input": (ev) => {
+        let progressBar = document.getElementById("fileUpload-spinner");
+        progressBar.setAttribute("class", "spinner-border");
+
         let file = ev.currentTarget.files[0];
         let user = "test_user";
 
@@ -135,6 +140,9 @@ Template.fileUpload.events({
 /// INVOKESCRIPT
 Template.invokeScript.events({
     "click button"(event, instance) {
+        let progressBar = document.getElementById("invokeScript-spinner");
+        progressBar.setAttribute("class", "spinner-border");
+
         let params = toolParams[selectedTool.get()];
         params.inputFile = uploadedFile.get().serverName;
         params.timestamp = uploadedFile.get().createdAt;
@@ -180,9 +188,14 @@ saveFile = (username, blob, name, path, type, callback) => {
         break;
     }
 
+    fileReader.onprogress = (event) => {};
+
     fileReader.onload = (file) => {
         Meteor.call("saveFile", username, file.target.result, name, path, encoding, callback);
     };
 
     fileReader[method](blob);
+
+    let progressBar = document.getElementById("fileUpload-spinner");
+    progressBar.removeAttribute("class");
 };
