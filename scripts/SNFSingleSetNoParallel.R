@@ -1,17 +1,15 @@
 # Adjust these 
 dataset = "KIRC"
-dataPath="..\\..\\..\\..\\..\\users\\test_user\\data\\"
-resultPath="..\\..\\..\\..\\..\\users\\test_user\\visualizations\\"
-
+args = commandArgs(trailingOnly=FALSE)
+dataPath = args[7]
+resultPath = args[8]
 #library(PINSPlus)
 library(SNFtool)
-
-print("libloaded")
 
 #Start: Code Integration
 #This format of data organization was code integrated from Dr.Nguyen's lab
 #load data into dataList
-load(paste(dataPath, dataset, ".RData" ,sep=""))
+load(dataPath)
 patients=rownames(survival)
 patients=intersect(patients,rownames(mydatGE))
 patients=intersect(patients,rownames(mydatME))
@@ -49,7 +47,7 @@ group = spectralClustering(W,C) # final subtype info
 #print(group)
 #displayClustersWithHeatmap(W, group)
 
-png(paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),   
+png(paste(resultPath, "SNF_Heatmap.png", sep=""), #paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
@@ -57,7 +55,7 @@ png(paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),
     pointsize = 4)
 displayClustersWithHeatmap(W, group)
 dev.off()
-png(paste(resultPath,"SNF_Alluvial_",dataset,".png",sep=""),   
+png(paste(resultPath, "SNF_Alluvial.png", sep=""), #paste(resultPath,"SNF_Alluvial_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",

@@ -1,26 +1,27 @@
-// user schema
-{
-  "username": "user",
-  "passwordHash": "saltedPasswordHash",
-  "visualizations": [
-    {}, {}, {} // insert visualization schema
-  ]
-}
-
-// visualization schema
-{
-  "source_dataset": "sourceDatasetPath",
-  "visualizations": [
-    "alluvial.png",
-    "heatmap.png"
-  ]
-}
-
-// filesystem schema
-// let's put user data in public for now
-public
-- <username>
-  - data
-    - <RData files, etc>
-  - visualizations
-    - <generated visualizations>
+[
+  // user schema
+  {
+    "username": "user",
+    "passwordHash": "saltedPasswordHash",
+    "visualizations": [
+      // list of visualization ids
+    ]
+  },
+  // visualization schema
+  {
+    "id": {
+      "createdAt": "created time",
+      "images": [
+        // list of visualization file paths
+      ]
+    }
+  }
+  // filesystem schema
+  // let's put user data in public for now
+  //   public
+  //   - <username>
+  //     - data
+  //       - <RData files, etc. this is temporary storage>
+  //     - visualizations
+  //       - <generated visualizations>
+]

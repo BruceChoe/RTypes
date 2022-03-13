@@ -8,33 +8,48 @@ import { Users } from "/imports/api/users";
 import { Comms } from "/imports/api/comms";
 
 // serving images via router? see here https://github.com/iron-meteor/iron-router/issues/1565
-function displayImage(imagePath) {
-    let imagePane = document.getElementById("imagePane");
-    let image = document.createElement("img");
-    image.setAttribute("src", imagePath);
-    imagePane.appendChild(image);
+// imagePaths: list
+function displayImage(imagePaths) {
+    imagePaths.forEach((path) => {
+        let imagePane = document.getElementById("imagePane");
+        let image = document.createElement("img");
+        image.setAttribute("src", path);
+        image.setAttribute("class", "img-fluid");
+        imagePane.appendChild(image);
+    });
 }
 
 const startupTime = new Date().getTime();
 
-const SNFParams = {
-    toolName: "SNFTool",
-    inputFile: "",
-    outputFilePrefix: "SNF",
-    neighbors: "",
-    hyperparameter: "",
-    numberIterations: ""
-};
+let selectedTool = new ReactiveVar(null);
+let uploadedFile = new ReactiveVar(null);
 
-const NEMOParams = {
-    toolName: "NEMO",
-    inputFile: "",
-    outputFilePrefix: "NEMO",
-    clusters: "",
-    neighbors: ""
-};
+const toolParams = [
+    {
+        toolName: "SNFTool",
+        inputFile: null,
+        outputFilePrefix: "SNF",
+        timestamp: null,
+        neighbors: null,
+        hyperparameter: null,
+        numberIterations: null
+    },
+    {
+        toolName: "NEMO",
+        inputFile: null,
+        outputFilePrefix: "NEMO",
+        timestamp: null,
+        clusters: null,
+        neighbors: null
+    }
+];
 
 Meteor.subscribe("comms", {
+    onReady: (param) => { console.log("subscribe onReady / " + param); },
+    onStop:  (param) => { console.log("subscribe onStop / "  + param); }
+});
+
+Meteor.subscribe("users", {
     onReady: (param) => { console.log("subscribe onReady / " + param); },
     onStop:  (param) => { console.log("subscribe onStop / "  + param); }
 });
@@ -53,7 +68,20 @@ msgs.observe({
                 break;
             case "visualization":
                 console.log("visualization ready");
-                displayImage(entry.path);
+                displayImage(entry.pathList);
+                let progressBar = document.getElementById("invokeScript-spinner");
+                progressBar.removeAttribute("class");
+                break;
+            case "file-upload-complete":
+                console.log("file upload complete");
+                uploadedFile.set(
+                    {
+                        serverName: entry.serverName,
+                        createdAt: entry.time
+                    }
+                );
+                console.log(uploadedFile);
+                document.getElementById("generateButton").removeAttribute("disabled");
                 break;
             default:
                 console.log("Unknown message type " + entry.type);
@@ -62,48 +90,81 @@ msgs.observe({
     }
 });
 
-Template.body.helpers({
-    res() {
-        return EJSON.stringify(Users.find({}).fetch()[0]["test_user"]);
-    },
+
+/// newVisualization
+Template.newVisualization.onCreated(() => {
+    selectedTool.set(0);
+    uploadedFile.set(
+        {
+            serverName: null,
+            createdAt: null
+        }
+    );
 });
 
+Template.newVisualization.helpers({
+    res() {
+        return EJSON.stringify(Users.find({}).fetch());
+    }
+});
+
+
+/// TESTMKDIR
 Template.testMkdir.events({
     "click button": (event, instance) => {
         Meteor.call("createUserDirectories", "test_user");
     }
 });
 
+
+/// FILEUPLOAD
 Template.fileUpload.events({
     "change input": (ev) => {
+        let progressBar = document.getElementById("fileUpload-spinner");
+        progressBar.setAttribute("class", "spinner-border");
+
         let file = ev.currentTarget.files[0];
         let user = "test_user";
 
         let res = Users.find({username: user}).fetch();
         console.log(Users);
         console.log("fetched: " + res);
-        //if (res.length != 0) { // this check doesn't actually work, res is empty
+        if (res.length != 0) {
             console.log("Saving file " + file.name + "...");
             saveFile(user, file, file.name, null, null, null);
-            console.log("saved");
-        //}
+        }
     }
 });
 
+
+/// INVOKESCRIPT
 Template.invokeScript.events({
     "click button"(event, instance) {
-        //Meteor.call("invokeProcess", ["python.exe", "../../../../../scripts/test.py"]);
-        Meteor.call("invokeProcess", SNFParams);
+        let progressBar = document.getElementById("invokeScript-spinner");
+        progressBar.setAttribute("class", "spinner-border");
+
+        let params = toolParams[selectedTool.get()];
+        params.inputFile = uploadedFile.get().serverName;
+        params.timestamp = uploadedFile.get().createdAt;
+        console.log(params);
+        Meteor.call("invokeProcess", "test_user", uploadedFile.get().createdAt, params);
     }
 });
 
+
+/// TOOLS
+// todo make sure these indices are consistent with the switch staement in the generate visualization thingy
 Template.tools.helpers({
-    toolNames: [
-        {name: "SNFTool"},
-        {name: "KIRC"},
-        {name: "CIMLR"}
-    ]
+    toolNames: toolParams.map(t => {return {name: t.toolName}; })
 });
+
+Template.tools.events({
+    "change select"(event, instance) {
+        selectedTool.set(instance.firstNode.options.selectedIndex);
+    }
+});
+
+
 
 saveFile = (username, blob, name, path, type, callback) => {
     let fileReader = new FileReader();
@@ -127,9 +188,14 @@ saveFile = (username, blob, name, path, type, callback) => {
         break;
     }
 
+    fileReader.onprogress = (event) => {};
+
     fileReader.onload = (file) => {
         Meteor.call("saveFile", username, file.target.result, name, path, encoding, callback);
     };
 
     fileReader[method](blob);
+
+    let progressBar = document.getElementById("fileUpload-spinner");
+    progressBar.removeAttribute("class");
 };
