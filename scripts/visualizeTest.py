@@ -1,4 +1,6 @@
-import sklearn
+import sklearn as sk
+from sklearn.decomposition import PCA
+
 import pandas as pd
 import numpy as np
 df_status_matrix = pd.read_csv('data/W.csv')
@@ -17,7 +19,9 @@ eig_val, eigen_vec = np.linalg.eig(covariance_matrix)
 print("Eigenvector: \n",eig_val,"\n")
 print("Eigenvalues: \n", eigen_vec, "\n")
 
-
-import plotly.express as px
-fig = px.imshow(df_status_matrix)
-fig.show()
+pca = PCA().fit_transform(df_status_matrix)
+print("PCA TIMEEEE")
+print(pca)
+# import plotly.express as px
+# fig = px.imshow(df_status_matrix)
+# fig.show()
