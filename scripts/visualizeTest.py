@@ -12,6 +12,7 @@ df_group_matrix = pd.read_csv('data/group.csv')
 df_group_matrix = df_group_matrix.set_index('Unnamed: 0')
 df_group_matrix.index.rename('Group Matrix', inplace=True)
 print(df_group_matrix)
+#commit test
 
 #PCA time
 covariance_matrix = np.cov(df_status_matrix.T)
