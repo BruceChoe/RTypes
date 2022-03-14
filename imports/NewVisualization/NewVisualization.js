@@ -109,6 +109,15 @@ Template.newVisualization.helpers({
 });
 
 
+
+/// saveVisualization
+Template.saveVisualization.events({
+    "click button": (event, instance) => {
+
+    }
+});
+
+
 /// TESTMKDIR
 Template.testMkdir.events({
     "click button": (event, instance) => {
