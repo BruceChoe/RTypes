@@ -1,0 +1,17 @@
+<template name="viewVisualization">
+  {{> headerBar }}
+  <div class="container-fluid">
+    <div class="row">
+      {{> sidebar }}
+      {{#each img in getImages visualizationId }}
+        {{> visualizationImageBox img=img }}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="visualizationImageBox">
+  <div class="col-9" id="imagePane">
+    <img src="{{ img }}" class="img-fluid">
+  </div>
+</template>
