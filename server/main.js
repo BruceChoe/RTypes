@@ -7,17 +7,19 @@ import { Visualizations } from '/imports/api/visualizations';
 import '/server/serverRoutes.js';
 
 Meteor.startup(() => {
-  if (Users.find({}).count() === 0) {
+ /* if (Users.find({}).count() === 0) {
     Users.insert({
       username: "test_user",
       password: "test_password",
       visualizations: [ ]
     });
-  }
+  } */
 
+  /*
   Meteor.publish('users', () => {
     return Users.find({});
   });
+*/
 
   Meteor.publish('comms', () => {
     return Comms.find({});
