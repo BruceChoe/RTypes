@@ -8,8 +8,12 @@ import { Visualizations } from "/imports/api/visualizations";
 Template.sidebarVisualizationItems.helpers({
     list() { return [...Array(10).keys()]; },
     visualizations: () => {
-        let user = Users.find({username: "test_user"}).fetch()[0];
-        let visualizations = Visualizations.find({createdAt: { $in: user.visualizations }}).fetch();
+        let user = Meteor.user();
+        if (!user)
+            return [];
+        let username = user.emails[0].address;
+
+        let visualizations = Visualizations.find({createdBy: username}).fetch();
         console.log(visualizations);
         return visualizations.map(v => v.createdAt);
     }

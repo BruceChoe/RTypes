@@ -3,14 +3,8 @@ import { EJSON } from "meteor/ejson";
 import { Template } from "meteor/templating";
 
 import "/imports/api/methods";
-import { Users } from "/imports/api/users";
 import { Visualizations } from "/imports/api/visualizations";
 import { Comms } from "/imports/api/comms";
-
-Meteor.subscribe("users", {
-    onReady: (param) => { console.log("subscribe onReady / " + param); },
-    onStop:  (param) => { console.log("subscribe onStop / "  + param); }
-});
 
 Meteor.subscribe("visualizations", {
     onReady: (param) => { console.log("subscribe onReady / " + param); },
@@ -19,8 +13,13 @@ Meteor.subscribe("visualizations", {
 
 Template.savedVisualization.helpers({
     bruh: () => {
-        let user = Users.find({username: "test_user"}).fetch()[0];
-        let visualizations = Visualizations.find({createdAt: { $in: user.visualizations }}).fetch();
+        let user = Meteor.user();
+        if (!user)
+            return [];
+        let username = user.emails[0].address;
+        
+        let visualizations = Visualizations.find({createdBy: username}).fetch();
+        console.log(visualizations);
 
         return visualizations.map((v) => {
             return {
