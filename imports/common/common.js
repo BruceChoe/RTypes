@@ -13,8 +13,4 @@ Template.sidebarVisualizationItems.helpers({
         console.log(visualizations);
         return visualizations.map(v => v.createdAt);
     }
-});
-/*
-Accounts.ui.config({
-    passwordSignupFields: "USERNAME_ONLY"
-}); */
+});

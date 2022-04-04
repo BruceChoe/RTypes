@@ -1,15 +1,8 @@
 [
-  // user schema
-  {
-    "username": "user",
-    "passwordHash": "saltedPasswordHash",
-    "visualizations": [
-      // list of visualization ids
-    ]
-  },
   // visualization schema
   {
     "id": {
+      "createdBy": "user",
       "createdAt": "created time",
       "images": [
         // list of visualization file paths

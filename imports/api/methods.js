@@ -2,7 +2,6 @@
 
 import { Meteor } from 'meteor/meteor';
 
-import { Users } from '/imports/api/users';
 import { Comms } from './comms';
 import { Visualizations } from '/imports/api/visualizations';
 
@@ -22,6 +21,12 @@ if (Meteor.isServer)
             // unix timestamps are a pretty "good enough" strat for unique filenames
             let saveTime = new Date().getTime();
 
+            if (!fs.existsSync(rootPath + "\\users\\" + user))
+            {
+                console.log('not exitss');
+                Meteor.call("createUserDirectories", user);
+            }
+
             name = "users\\" + user + "\\data\\" + saveTime.toString() + "-" + name;
             encoding = encoding || 'binary';
             chroot = Meteor.chroot || rootPath;
@@ -37,18 +42,10 @@ if (Meteor.isServer)
             console.log('The file ' + name + ' (' + encoding + ') was saved at ' + saveTime);
 
             Visualizations.insert({
+                createdBy: user,
                 createdAt: saveTime,
                 images: []
             });
-    
-            Users.update(
-                { username: user },
-                {
-                    $push: {
-                        visualizations: saveTime
-                    }
-                }
-            );
 
             Comms.insert({
                 type: "file-upload-complete",

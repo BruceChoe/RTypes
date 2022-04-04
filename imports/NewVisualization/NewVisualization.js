@@ -4,7 +4,6 @@ import { EJSON } from "meteor/ejson";
 import { Template } from "meteor/templating";
 
 import "/imports/api/methods";
-import { Users } from "/imports/api/users";
 import { Comms } from "/imports/api/comms";
 
 // serving images via router? see here https://github.com/iron-meteor/iron-router/issues/1565
@@ -45,11 +44,6 @@ const toolParams = [
 ];
 
 Meteor.subscribe("comms", {
-    onReady: (param) => { console.log("subscribe onReady / " + param); },
-    onStop:  (param) => { console.log("subscribe onStop / "  + param); }
-});
-
-Meteor.subscribe("users", {
     onReady: (param) => { console.log("subscribe onReady / " + param); },
     onStop:  (param) => { console.log("subscribe onStop / "  + param); }
 });
@@ -104,7 +98,7 @@ Template.newVisualization.onCreated(() => {
 
 Template.newVisualization.helpers({
     res() {
-        return EJSON.stringify(Users.find({}).fetch());
+        return EJSON.stringify(Meteor.user());
     }
 });
 
@@ -133,15 +127,17 @@ Template.fileUpload.events({
         progressBar.setAttribute("class", "spinner-border");
 
         let file = ev.currentTarget.files[0];
-        let user = "test_user";
-
-        let res = Users.find({username: user}).fetch();
-        console.log(Users);
-        console.log("fetched: " + res);
-        if (res.length != 0) {
-            console.log("Saving file " + file.name + "...");
-            saveFile(user, file, file.name, null, null, null);
+        let user = Meteor.user();
+        if (!user)
+        {
+            console.log("not logged in, returning");
+            return;
         }
+
+        let username = user.emails[0].address;
+        console.log(username);
+
+        saveFile(username, file, file.name, null, null, null);
     }
 });
 
@@ -156,7 +152,16 @@ Template.invokeScript.events({
         params.inputFile = uploadedFile.get().serverName;
         params.timestamp = uploadedFile.get().createdAt;
         console.log(params);
-        Meteor.call("invokeProcess", "test_user", uploadedFile.get().createdAt, params);
+
+        let user = Meteor.user();
+        if (user)
+        {
+            Meteor.call("invokeProcess", user.emails[0].address, uploadedFile.get().createdAt, params);
+        }
+        else
+        {
+            console.log("not logged in, returning");
+        }
     }
 });
 
