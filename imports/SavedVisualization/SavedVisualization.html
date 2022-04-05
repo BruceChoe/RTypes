@@ -3,80 +3,8 @@
   <div class="container-fluid">
     <div class="row">
       {{> sidebar }}
-      <!-- <table border="4" class="center" cellpadding="30" cellspacing="50" style="margin-left:auto;margin-right:auto">
-        <th>User's Saved Visualization</th>
-        <tr>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N</a></td>
-            </tr>
-            </table>
-          </td>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-1</a></td>
-            </tr>
-            </table>
-          </td>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-2</a></td>
-            </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-3</a></td>
-            </tr>
-            </table>
-          </td>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-4</a></td>
-            </tr>
-            </table>
-          </td>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-5</a></td>
-            </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-6</a></td>
-            </tr>
-            </table>
-          </td>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-7</a></td>
-            </tr>
-            </table>
-          </td>
-          <td>
-            <table border="4" cellpadding="40">
-            <tr>
-              <td><a href="ShareData1.html">Visualization N-8</a></td>
-            </tr>
-            </table>
-          </td>
-        </tr>
-      </table> -->
       {{#each b in bruh }}
-        <div class="col">
+        <div class="col-md-2">
           <a href="{{pathFor 'view' _index=b.createdAt}}">
             <img class="img-fluid" src="{{ b.image }}">
           </a>

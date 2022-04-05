@@ -3,15 +3,15 @@
   <div class="container-fluid">
     <div class="row">
       {{> sidebar }}
+      <div class="col-9" id="imagePane">
       {{#each img in getImages visualizationId }}
         {{> visualizationImageBox img=img }}
       {{/each}}
+      </div>
     </div>
   </div>
 </template>
 
 <template name="visualizationImageBox">
-  <div class="col-9" id="imagePane">
-    <img src="{{ img }}" class="img-fluid">
-  </div>
+  <img src="{{ img }}" class="img-fluid">
 </template>
