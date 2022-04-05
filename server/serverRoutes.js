@@ -64,12 +64,6 @@ Picker.route("/upload", (params, req, res, next) => {
                         fs.renameSync(tmpPath, newPath);
                         console.log('The file ' + newName + ' was saved at ' + saveTime);
             
-                        Visualizations.insert({
-                            createdBy: username,
-                            createdAt: saveTime,
-                            images: []
-                        });
-            
                         Comms.insert({
                             type: "file-upload-complete",
                             time: saveTime,

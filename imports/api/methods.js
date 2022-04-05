@@ -103,14 +103,11 @@ if (Meteor.isServer)
                     console.log("initial files: " + visualizationList);
                     console.log("visualization generated: " + generatedVisualizations);
 
-                    Visualizations.update(
-                        { createdAt: visualizationId },
-                        {
-                            $push: {
-                                images: { $each: generatedVisualizations }
-                            }
-                        }
-                    );
+                    Visualizations.insert({
+                        createdBy: user,
+                        createdAt: visualizationId,
+                        images: generatedVisualizations
+                    });
 
                     Comms.insert({
                         type: "visualization",
