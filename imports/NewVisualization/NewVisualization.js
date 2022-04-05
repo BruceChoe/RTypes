@@ -6,6 +6,8 @@ import { Template } from "meteor/templating";
 import "/imports/api/methods";
 import { Comms } from "/imports/api/comms";
 
+import HugeUploader from "huge-uploader";
+
 // serving images via router? see here https://github.com/iron-meteor/iron-router/issues/1565
 // imagePaths: list
 function displayImage(imagePaths) {
@@ -123,8 +125,7 @@ Template.testMkdir.events({
 /// FILEUPLOAD
 Template.fileUpload.events({
     "change input": (ev) => {
-        let progressBar = document.getElementById("fileUpload-spinner");
-        progressBar.setAttribute("class", "spinner-border");
+        let progressBar = document.getElementById("fileUpload-progress");
 
         let file = ev.currentTarget.files[0];
         let user = Meteor.user();
@@ -137,7 +138,31 @@ Template.fileUpload.events({
         let username = user.emails[0].address;
         console.log(username);
 
-        saveFile(username, file, file.name, null, null, null);
+        const uploader = new HugeUploader({
+            endpoint: "/upload",
+            file: file,
+            postParams: {
+                filename: file.name,
+                username: username
+            },
+            headers: {
+                "filename": "test"
+            }
+        });
+        console.log(uploader);
+
+        uploader.on("error", (err) => {
+            console.error("Upload errored:", err.detail);
+        });
+
+        uploader.on("progress", (progress) => {
+            console.log(progress.detail);
+            progressBar.setAttribute("value", progress.detail);
+        });
+
+        uploader.on("finish", () => {
+            console.log("upload finished");
+        });
     }
 });
 
