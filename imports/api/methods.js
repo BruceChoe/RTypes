@@ -103,16 +103,12 @@ if (Meteor.isServer)
                     console.log("initial files: " + visualizationList);
                     console.log("visualization generated: " + generatedVisualizations);
 
-                    Visualizations.insert({
-                        createdBy: user,
-                        createdAt: visualizationId,
-                        images: generatedVisualizations
-                    });
-
                     Comms.insert({
                         type: "visualization",
                         time: new Date().getTime(),
-                        pathList: generatedVisualizations
+                        createdAt: visualizationId,
+                        createdBy: user,
+                        images: generatedVisualizations
                     });
                 });
             });
@@ -141,6 +137,19 @@ if (Meteor.isServer)
             });
             fs.mkdir(path.join(userPath, username, 'visualizations'), (err) => {
                 errorCallback(err, username, "visualizations");
+            });
+        },
+
+        // visualizationInfo: {
+        //     createdBy: str
+        //     createdAt: str
+        //     images: list of str
+        // }
+        saveVisualization(visualizationInfo) {
+            Visualizations.insert({
+                createdBy: visualizationInfo.createdBy,
+                createdAt: visualizationInfo.createdAt,
+                images: visualizationInfo.images
             });
         }
     });

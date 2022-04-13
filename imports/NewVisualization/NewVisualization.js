@@ -8,7 +8,6 @@ import { Comms } from "/imports/api/comms";
 
 import HugeUploader from "huge-uploader";
 
-// serving images via router? see here https://github.com/iron-meteor/iron-router/issues/1565
 // imagePaths: list
 function displayImage(imagePaths) {
     imagePaths.forEach((path) => {
@@ -24,6 +23,7 @@ const startupTime = new Date().getTime();
 
 let selectedTool = new ReactiveVar(null);
 let uploadedFile = new ReactiveVar(null);
+let visualizationInfo = new ReactiveVar(null);
 
 const toolParams = [
     {
@@ -53,8 +53,7 @@ Meteor.subscribe("comms", {
 let msgs = Comms.find();
 msgs.observe({
     added: (entry) => {
-        // jesus christ javascript, if there is no time field this silently fails
-        if (entry.time < startupTime) return;
+        if (entry.time === undefined || entry.time < startupTime) return;
 
         console.log("Client received message of type " + entry.type + " at time " + entry.time);
 
@@ -64,9 +63,19 @@ msgs.observe({
                 break;
             case "visualization":
                 console.log("visualization ready");
-                displayImage(entry.pathList);
+                displayImage(entry.images);
                 let progressBar = document.getElementById("invokeScript-spinner");
                 progressBar.removeAttribute("class");
+
+                visualizationInfo.set({
+                    createdAt: entry.createdAt,
+                    createdBy: entry.createdBy,
+                    images: entry.images
+                });
+                console.log(visualizationInfo);
+
+                let saveButton = document.getElementById("saveButton");
+                saveButton.removeAttribute("disabled");
                 break;
             case "file-upload-complete":
                 console.log("file upload complete");
@@ -90,12 +99,15 @@ msgs.observe({
 /// newVisualization
 Template.newVisualization.onCreated(() => {
     selectedTool.set(0);
-    uploadedFile.set(
-        {
-            serverName: null,
-            createdAt: null
-        }
-    );
+    uploadedFile.set({
+        serverName: null,
+        createdAt: null
+    });
+    visualizationInfo.set({
+        createdBy: null,
+        createdAt: null,
+        images: []
+    });
 });
 
 Template.newVisualization.helpers({
@@ -109,7 +121,8 @@ Template.newVisualization.helpers({
 /// saveVisualization
 Template.saveVisualization.events({
     "click button": (event, instance) => {
-
+        Meteor.call("saveVisualization", visualizationInfo.get());
+        console.log("saved");
     }
 });
 
