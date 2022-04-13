@@ -44,6 +44,7 @@
 </template>
 
 <template name="sidebarVisualizationItems">
+  {{#if loggedIn}}
   {{#each item in visualizations}}
     <li class="nav-item">
       <a href="{{ pathFor 'view' _index=item }}" class="nav-link">
@@ -52,6 +53,11 @@
       </a>
     </li>
   {{/each}}
+  {{else}}
+  <li class="nav-item">
+    <em class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">Log in to view visualizations.</em>
+  </li>
+  {{/if}}
 </template>
 
 <template name="404">

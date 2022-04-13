@@ -1,13 +1,21 @@
 <template name="viewVisualization">
   {{> headerBar }}
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid"  style="height:100%">
+    <div class="row"  style="height:100%">
       {{> sidebar }}
+
+      {{#if loggedIn}}
       <div class="col-9" id="imagePane">
       {{#each img in getImages visualizationId }}
         {{> visualizationImageBox img=img }}
       {{/each}}
       </div>
+      {{else}}
+      <div class="col-md-9">
+        <br><br>
+        <h4>I'm not sure how you got here, but ou must be logged in to view your visualizations.</h4>
+      </div>
+      {{/if}}
     </div>
   </div>
 </template>

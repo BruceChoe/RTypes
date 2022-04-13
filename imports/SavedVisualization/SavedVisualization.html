@@ -1,15 +1,24 @@
 <template name="savedVisualization">
   {{> headerBar }}
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid"  style="height:100%">
+    <div class="row"  style="height:100%">
       {{> sidebar }}
+
+      {{#if loggedIn}}
       {{#each b in bruh }}
-        <div class="col-md-2">
+        <div class="col-md-2 d-flex">
           <a href="{{pathFor 'view' _index=b.createdAt}}">
             <img class="img-fluid" src="{{ b.image }}">
+            <div class="d-flex flex-row align-items-center">Visualization ID: {{ b.createdAt }}</div>
           </a>
         </div>
       {{/each}}
+      {{else}}
+      <div class="col-md-9">
+        <br><br>
+        <h4>You must be logged in to view your visualizations.</h4>
+      </div>
+      {{/if}}
     </div>
   </div>
 </template>

@@ -3,6 +3,8 @@
   <div class="container-fluid" style="height:100%;">
     <div class="row" style="height:100%">
       {{> sidebar }}
+
+      {{#if loggedIn}}
       <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">        
         <section>
           <div class="row">
@@ -19,6 +21,12 @@
           </div>
         </section>
       </main>
+      {{else}}
+      <div class="col-md-9">
+        <br><br>
+        <h4>You must be logged in to create a new visualization.</h4>
+      </div>
+      {{/if}}
     </div>
   </div>
 </template>

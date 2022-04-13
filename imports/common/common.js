@@ -18,3 +18,6 @@ Template.sidebarVisualizationItems.helpers({
         return visualizations.map(v => v.createdAt);
     }
 });
+Template.registerHelper("loggedIn", () => {
+    return Meteor.user() != null;
+});
