@@ -123,6 +123,9 @@ Template.saveVisualization.events({
     "click button": (event, instance) => {
         Meteor.call("saveVisualization", visualizationInfo.get());
         console.log("saved");
+        // enable download
+        let downloadButton = document.getElementById("downloadButton");
+        downloadButton.removeAttribute("disabled");
     }
 });
 
@@ -216,6 +219,15 @@ Template.tools.events({
     }
 });
 
+
+/// DOWNLOAD
+Template.downloadVisualizationNewPage.events({
+    "click button": (event, instance) => {
+        // instance has a data field: this is the data that is passed to the template in the html template
+        // here, it is the visualization ID
+        window.location.href = "/download/" + visualizationInfo.get().createdAt;
+    }
+});
 
 
 saveFile = (username, blob, name, path, type, callback) => {

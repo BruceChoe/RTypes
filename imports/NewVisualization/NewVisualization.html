@@ -17,6 +17,7 @@
             </div>
             <div class="col">
               {{> saveVisualization }}
+              {{> downloadVisualizationNewPage }}
             </div>
           </div>
         </section>
@@ -58,4 +59,8 @@
       <option value="{{ name }}">{{ name }}</option>
     {{/each}}
   </select>
+</template>
+
+<template name="downloadVisualizationNewPage">
+  <button id="downloadButton" disabled="true">Download as .zip file</button>
 </template>

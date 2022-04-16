@@ -5,16 +5,18 @@
       {{> sidebar }}
 
       {{#if loggedIn}}
-      <div class="col-9" id="imagePane">
-      {{#each img in getImages visualizationId }}
-        {{> visualizationImageBox img=img }}
-      {{/each}}
-      </div>
+        <div class="col-9" id="imagePane">
+        {{#each img in getImages visualizationId }}
+          {{> visualizationImageBox img=img }}
+        {{/each}}
+
+        {{> downloadVisualization visualizationId}}
+        </div>
       {{else}}
-      <div class="col-md-9">
-        <br><br>
-        <h4>I'm not sure how you got here, but ou must be logged in to view your visualizations.</h4>
-      </div>
+        <div class="col-md-9">
+          <br><br>
+          <h4>I'm not sure how you got here, but ou must be logged in to view your visualizations.</h4>
+        </div>
       {{/if}}
     </div>
   </div>

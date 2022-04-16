@@ -17,7 +17,16 @@ Template.sidebarVisualizationItems.helpers({
         console.log(visualizations);
         return visualizations.map(v => v.createdAt);
     }
-});
+});
+
 Template.registerHelper("loggedIn", () => {
     return Meteor.user() != null;
+});
+
+Template.downloadVisualization.events({
+    "click button": (event, instance) => {
+        // instance has a data field: this is the data that is passed to the template in the html template
+        // here, it is the visualization ID
+        window.location.href = "/download/" + instance.data;
+    }
 });

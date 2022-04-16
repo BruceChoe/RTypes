@@ -4,6 +4,7 @@ import { Picker } from 'meteor/communitypackages:picker';
 import fs from 'fs';
 
 import uploader from 'huge-uploader-nodejs';
+import admZip from 'adm-zip';
 import { Comms } from '/imports/api/comms.js';
 import { Visualizations } from '/imports/api/visualizations.js';
 
@@ -28,6 +29,33 @@ Picker.route("/img/:_user/:_name", (params, req, res, next) => {
         res.write(data);
         res.end();
     });
+});
+
+// visualization donwloads
+Picker.route("/download/:_id", (params, req, res, next) => {
+    let createdAt = parseInt(params._id);
+    console.log(createdAt);
+    let visualization = Visualizations.find({createdAt: createdAt}).fetch()[0];
+    let images = visualization.images;
+    let user = visualization.createdBy;
+    console.log(visualization);
+
+    let zip = new admZip();
+    let userImagesDir = rootPath + "users/" + user + "/visualizations/";
+    let userImageFilenames = images.map(path => userImagesDir + path.split("/").pop());
+    console.log(userImageFilenames);
+
+    for (let i = 0; i < userImageFilenames.length; i++) {
+        zip.addLocalFile(userImageFilenames[i]);
+    }
+    //zip.writeZip(rootPath + "temp/test.zip");
+    
+    let zipBuffer = zip.toBuffer();
+    res.writeHead(200, {
+        "Content-Type": "application/zip",
+        "Content-Disposition": `attachment; filename=${createdAt}.zip`
+    });
+    res.end(zipBuffer);
 });
 
 Picker.route("/upload", (params, req, res, next) => {
