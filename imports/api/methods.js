@@ -150,7 +150,9 @@ if (Meteor.isServer)
             Visualizations.insert({
                 createdBy: visualizationInfo.createdBy,
                 createdAt: visualizationInfo.createdAt,
-                images: visualizationInfo.images
+                images: visualizationInfo.images,
+                name: visualizationInfo.name,
+                description: visualizationInfo.description
             });
         },
 

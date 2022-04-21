@@ -121,8 +121,31 @@ Template.newVisualization.helpers({
 /// saveVisualization
 Template.saveVisualization.events({
     "click button": (event, instance) => {
-        Meteor.call("saveVisualization", visualizationInfo.get());
+        // grab name and description
+        let name = document.getElementById("visualizationName");
+        console.log(name.value);
+        let description = document.getElementById("visualizationDescription");
+        console.log(description.value);
+        let feedback = document.getElementById("feedbackText");
+        feedback.textContent = "";
+
+        if (name.value === "") {
+            console.log("visualization must have a name");
+            feedback.setAttribute("style", "color: red;");
+            feedback.textContent = "Visualizations must have a name.";
+            return;
+        }
+
+        let info = visualizationInfo.get();
+        Meteor.call("saveVisualization", {
+            createdBy: info.createdBy,
+            createdAt: info.createdAt,
+            images: info.images,
+            name: name.value,
+            description: description.value
+        });
         console.log("saved");
+
         // enable download
         let downloadButton = document.getElementById("downloadButton");
         downloadButton.removeAttribute("disabled");
