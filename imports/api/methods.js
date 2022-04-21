@@ -4,6 +4,7 @@ import { Meteor } from 'meteor/meteor';
 
 import { Comms } from './comms';
 import { Visualizations } from '/imports/api/visualizations';
+import { Shares } from '/imports/api/shares';
 
 import ChildProcess from 'child_process';
 import fs, { readdirSync } from 'fs';
@@ -151,6 +152,35 @@ if (Meteor.isServer)
                 createdAt: visualizationInfo.createdAt,
                 images: visualizationInfo.images
             });
+        },
+
+        shareVisualization(sharedWith, visualizationId) {
+            // add entry to shares database if not present
+            let userShares = Shares.find({username: sharedWith}).fetch();
+            if (userShares.length === 0) {
+                Shares.insert({
+                    username: sharedWith,
+                    shares: []
+                });   
+            }
+
+            Shares.update(
+                { username: sharedWith },
+                {
+                    $addToSet: {
+                        shares: visualizationId
+                    }
+                }
+            );
+        },
+
+        userExists(username) {
+            let users = Meteor.users.find({}).fetch();
+            for (let i = 0; i < users.length; i++) {
+                if (username == users[i].emails[0].address){ console.log("found"); return true; }
+            }
+
+            return false;
         }
     });
 }

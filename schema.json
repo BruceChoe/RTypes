@@ -8,7 +8,19 @@
         // list of visualization file paths
       ]
     }
+  },
+
+  // shared visualizations schema
+  // specifies a list of visualizations (not their own) that the user has access to
+  {
+    "id": {
+      "username": "username",
+      "shares": [
+        "list", "of", "visualization ids"
+      ]
+    }
   }
+
   // filesystem schema
   // let's put user data in public for now
   //   public

@@ -5,7 +5,17 @@
       {{> sidebar }}
 
       {{#if loggedIn}}
-      {{#each b in bruh }}
+      <h1>Saved Visualizations</h1>
+      {{#each b in savedVisualizations }}
+        <div class="col-md-2 d-flex">
+          <a href="{{pathFor 'view' _index=b.createdAt}}">
+            <img class="img-fluid" src="{{ b.image }}">
+            <div class="d-flex flex-row align-items-center">Visualization ID: {{ b.createdAt }}</div>
+          </a>
+        </div>
+      {{/each}}
+      <h1>Shared with Me</h1>
+      {{#each b in sharedVisualizations}}
         <div class="col-md-2 d-flex">
           <a href="{{pathFor 'view' _index=b.createdAt}}">
             <img class="img-fluid" src="{{ b.image }}">

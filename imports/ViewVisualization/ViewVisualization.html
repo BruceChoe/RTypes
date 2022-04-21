@@ -4,18 +4,26 @@
     <div class="row"  style="height:100%">
       {{> sidebar }}
 
-      {{#if loggedIn}}
-        <div class="col-9" id="imagePane">
-        {{#each img in getImages visualizationId }}
-          {{> visualizationImageBox img=img }}
-        {{/each}}
+      {{#if canView visualizationId}}
+        {{#if loggedIn}}
+          <div class="col-9" id="imagePane">
+          {{#each img in getImages visualizationId }}
+            {{> visualizationImageBox img=img }}
+          {{/each}}
 
-        {{> downloadVisualization visualizationId}}
-        </div>
+          {{> downloadVisualization visualizationId}}
+          {{> shareVisualization visualizationId}}
+          </div>
+        {{else}}
+          <div class="col-md-9">
+            <br><br>
+            <h4>You must be logged in to view your visualizations.</h4>
+          </div>
+        {{/if}}
       {{else}}
         <div class="col-md-9">
           <br><br>
-          <h4>I'm not sure how you got here, but ou must be logged in to view your visualizations.</h4>
+          <h4>You are not allowed to view this visualization.</h4>
         </div>
       {{/if}}
     </div>
@@ -24,4 +32,10 @@
 
 <template name="visualizationImageBox">
   <img src="{{ img }}" class="img-fluid">
+</template>
+
+<template name="shareVisualization">
+  <button id="shareButton">Share</button>
+  <input type="email" id="emailField">
+  <div id="emailFeedback"></div>
 </template>

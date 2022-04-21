@@ -39,6 +39,15 @@
       <ul class="nav flex-column mb-2">
         {{> sidebarVisualizationItems }}
       </ul>
+      <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+        <a class="link-secondary" href="{{ pathFor 'saved' }}" aria-label="Add a new report">
+          <span data-feather="plus-circle"></span>
+          Visualizations Shared With Me
+        </a>
+      </h6>
+      <ul class="nav flex-column mb-2">
+        {{> sidebarSharedWithMe }}
+      </ul>
     </div>
   </nav>
 </template>
@@ -55,8 +64,25 @@
   {{/each}}
   {{else}}
   <li class="nav-item">
-    <em class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">Log in to view visualizations.</em>
+    <em class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">Log in to view your visualizations.</em>
   </li>
+  {{/if}}
+</template>
+
+<template name="sidebarSharedWithMe">
+  {{#if loggedIn}}
+    {{#each item in sharedVisualizations}}
+      <li class="nav-item">
+        <a href="{{ pathFor 'view' _index=item }}" class="nav-link">
+          <span data-feather="file-text"></span>
+          Shared Visualization {{ item }}
+        </a>
+      </li>
+    {{/each}}
+  {{else}}
+    <li class="nav-item">
+      <em class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">Log in to view shared visualizations.</em>
+    </li>
   {{/if}}
 </template>
 
