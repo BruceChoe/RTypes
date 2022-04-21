@@ -14,7 +14,7 @@ Template.sidebarVisualizationItems.helpers({
 
         let visualizations = Visualizations.find({createdBy: username}).fetch();
         console.log(visualizations);
-        return visualizations.map(v => v.createdAt);
+        return visualizations.map(v => {return {createdAt: v.createdAt, name: v.name};});
     }
 });
 
@@ -28,7 +28,16 @@ Template.sidebarSharedWithMe.helpers({
 
         let sharedVisualizations = Shares.find({username: username}).fetch();
         console.log(sharedVisualizations[0].shares);
-        return sharedVisualizations[0].shares;
+
+        let visualizations = [];
+        for (let i = 0; i < sharedVisualizations[0].shares.length; i++)
+        {
+            // nightmare nightmare nightmare
+            visualizations.push(Visualizations.find({createdAt: sharedVisualizations[0].shares[i]}).fetch()[0]);
+        }
+        console.log(visualizations);
+
+        return visualizations.map(v => {return {createdAt: v.createdAt, name: v.name};});
     }
 });
 

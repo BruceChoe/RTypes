@@ -25,7 +25,8 @@ Template.savedVisualization.helpers({
         return visualizations.map((v) => {
             return {
                 createdAt: v.createdAt,
-                image: v.images[0]
+                image: v.images[0],
+                name: v.name
             };
         });
     },
@@ -49,7 +50,8 @@ Template.savedVisualization.helpers({
         return visualizations.map((v) => {
             return {
                 createdAt: v.createdAt,
-                image: v.images[0]
+                image: v.images[0],
+                name: v.name
             };
         });
     }

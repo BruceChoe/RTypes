@@ -56,9 +56,9 @@
   {{#if loggedIn}}
   {{#each item in visualizations}}
     <li class="nav-item">
-      <a href="{{ pathFor 'view' _index=item }}" class="nav-link">
+      <a href="{{ pathFor 'view' _index=item.createdAt }}" class="nav-link">
         <span data-feather="file-text"></span>
-        Saved Visualization {{ item }}
+        {{ item.name }}
       </a>
     </li>
   {{/each}}
@@ -73,9 +73,9 @@
   {{#if loggedIn}}
     {{#each item in sharedVisualizations}}
       <li class="nav-item">
-        <a href="{{ pathFor 'view' _index=item }}" class="nav-link">
+        <a href="{{ pathFor 'view' _index=item.createdAt }}" class="nav-link">
           <span data-feather="file-text"></span>
-          Shared Visualization {{ item }}
+          {{ item.name }}
         </a>
       </li>
     {{/each}}

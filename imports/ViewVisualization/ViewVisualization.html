@@ -6,6 +6,9 @@
 
       {{#if canView visualizationId}}
         {{#if loggedIn}}
+          <h1>{{ getName visualizationId }}</h1>
+          <p>{{ getDescription visualizationId }}</p>
+
           <div class="col-9" id="imagePane">
           {{#each img in getImages visualizationId }}
             {{> visualizationImageBox img=img }}
