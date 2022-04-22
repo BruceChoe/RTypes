@@ -80,10 +80,10 @@ Picker.route("/upload", (params, req, res, next) => {
                         let username = data.postParams.username;
                         let filename = data.postParams.filename;
                         let tmpPath = rootPath + "temp/" + req.headers["uploader-file-id"];
-                        let newName = "users\\" + username + "\\data\\" + saveTime.toString() + "-" + filename;
+                        let newName = "users/" + username + "/data/" + saveTime.toString() + "-" + filename;
                         let newPath = rootPath + newName;
 
-                        if (!fs.existsSync(rootPath + "\\users\\" + username))
+                        if (!fs.existsSync(rootPath + "/users/" + username))
                         {
                             console.log('not exits');
                             Meteor.call("createUserDirectories", username);

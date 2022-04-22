@@ -22,13 +22,13 @@ if (Meteor.isServer)
             // unix timestamps are a pretty "good enough" strat for unique filenames
             let saveTime = new Date().getTime();
 
-            if (!fs.existsSync(rootPath + "\\users\\" + user))
+            if (!fs.existsSync(rootPath + "/users/" + user))
             {
                 console.log('not exitss');
                 Meteor.call("createUserDirectories", user);
             }
 
-            name = "users\\" + user + "\\data\\" + saveTime.toString() + "-" + name;
+            name = "users/" + user + "/data/" + saveTime.toString() + "-" + name;
             encoding = encoding || 'binary';
             chroot = Meteor.chroot || rootPath;
         
@@ -88,7 +88,7 @@ if (Meteor.isServer)
             let outputFileFolder = rootPath + "users/" + user + "/visualizations/";
             let fullOutputFilePath = outputFileFolder + outputFilePrefix;
             
-            let invocation = "Rscript.exe --vanilla " +
+            let invocation = "Rscript --vanilla " +
                 toolPath + " " + // tool
                 rootPath + paramObject.inputFile + " " + // input file path
                 fullOutputFilePath;
