@@ -1,6 +1,9 @@
 # RTypes
 CS 426 Senior Project in Computer Science, Spring 2022, at UNR, CSE Department
 
+* TOC
+{:toc}
+
 ## People
 
 All of the following individuals are affiliated with the University of Nevada, Reno.
@@ -29,7 +32,33 @@ RTypes is a web application that interfaces with existing disease subtyping tool
 
 ## Current Features
 
+There are four main views of the website:
+the home page, the new visualization page, the visualization index page, and the saved visualization page.
+Each page has a sidebar that shows the user a list of their saved visualizations as well as visualizations that have been shared with the user.
 
+We have implemented a user account system so that each user can save visualizations to their account.
+Unless the visualizations are shared with another user, the visualizations are private -
+they can only be viewed by the owner.
+To sign up, the user must enter their email and a password.
+The functionality of RTypes is only available to those who have created an account.
+
+The home page is a welcome page that directs the user toward the login box if they are not logged in,
+or to the new visualization page if they are logged in.
+
+The new visualization page has a straightforward workflow:
+1. Upload a `.RData` dataset.
+2. Select a subtyping tool to perform analysis with. Currently, RTypes supports two disease subtyping tools: SNFTool and NEMO.
+3. Generate the visualizations of the subtyping analysis.
+4. Enter a name and a description for the visualization.
+5. Save the visualization to your user account.
+6. Optionally, the user may download the visualization to their device.
+
+The visualization index page is an enumeration of the user's saved visualizations.
+The visualization name is listed alongside a preview of the visualization's first image.
+There is a separate area for visualizations shared with the user, displayed in a similar manner to the user's saved visualziations.
+
+The view visualization page shows the name of the visualization, its description, and the visualizations themselves.
+The bottom of the page allows the user to download the visualizations to their device or share the visualization with another RTypes user.
 
 ## Future Work
 
