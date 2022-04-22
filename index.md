@@ -61,7 +61,14 @@ The view visualization page shows the name of the visualization, its description
 The bottom of the page allows the user to download the visualizations to their device or share the visualization with another RTypes user.
 
 ## Future Work
-
+Features to be implemented for RTypes include:
+1. Account analysis sharing
+2. Additional subtyping tools
+3. Auto-generated explanations for visualizations
+4. Support for additional file types (CSV, XLSX)
+5. Improved website navigation and dashboard
+6. Additional visualizations per subtyping tool 
+7. Overhaul of user-interface aesthetics
 
 
 ## Project Media
