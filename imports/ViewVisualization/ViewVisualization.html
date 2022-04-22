@@ -6,11 +6,12 @@
 
       {{#if canView visualizationId}}
         {{#if loggedIn}}
-          <h1>{{ getName visualizationId }}</h1>
-          <p>{{ getDescription visualizationId }}</p>
+          <h1>{{ getData visualizationId "name" }}</h1>
+          <h2>Author: {{ getData visualizationId "createdBy" }}</h2>
+          <p>{{ getData visualizationId "description" }}</p>
 
           <div class="col-9" id="imagePane">
-          {{#each img in getImages visualizationId }}
+          {{#each img in getData visualizationId "images" }}
             {{> visualizationImageBox img=img }}
           {{/each}}
 

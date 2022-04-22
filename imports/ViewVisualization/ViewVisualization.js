@@ -16,32 +16,15 @@ Meteor.subscribe("shares", {
 });
 
 Template.viewVisualization.helpers({
-    getName: (visualizationId) => {
+    getData: (visualizationId, key) => {
         let user = Meteor.user();
         if (!user) return [];
-        
-        // this should only be one visualization here
-        let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
-        return visualization.name;
-    },
 
-    getDescription: (visualizationId) => {
-        let user = Meteor.user();
-        if (!user) return [];
-        
-        // this should only be one visualization here
         let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
-        return visualization.description;
-    },
+        let value = visualization[`${key}`];
 
-    getImages: (visualizationId) => {
-        let user = Meteor.user();
-        if (!user) return [];
-        
-        // this should only be one visualization here
-        let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
-        if (visualization)
-            return visualization.images;
+        if (value)
+            return value;
         else
             return [];
     },
