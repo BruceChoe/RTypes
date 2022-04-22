@@ -3,31 +3,38 @@
   <div class="container-fluid"  style="height:100%">
     <div class="row"  style="height:100%">
       {{> sidebar }}
-
       {{#if loggedIn}}
-      <h1>Saved Visualizations</h1>
-      {{#each b in savedVisualizations }}
-        <div class="col-md-2 d-flex">
-          <a href="{{pathFor 'view' _index=b.createdAt}}">
-            <img class="img-fluid" src="{{ b.image }}">
-            <div class="d-flex flex-row align-items-center">{{ b.name }}</div>
-          </a>
+        <div class="col-md-9">
+          <div class="row">
+            <h1 class="col">Saved Visualizations</h1>
+            <div class="w-100"></div>
+            {{#each b in savedVisualizations }}
+              <div class="col-md-4 d-flex">
+                <a href="{{pathFor 'view' _index=b.createdAt}}">
+                  <img class="img-fluid" src="{{ b.image }}">
+                  <div class="d-flex flex-row align-items-center">{{ b.name }}</div>
+                </a>
+              </div>
+            {{/each}}
+            <div class="w-100"></div>
+            <h1 class="col-md-9">Shared with Me</h1>
+            <div class="w-100"></div>
+            {{#each b in sharedVisualizations}}
+              <div class="col-md-4 d-flex">
+                <a href="{{pathFor 'view' _index=b.createdAt}}">
+                  <img class="img-fluid" src="{{ b.image }}">
+                  <div class="d-flex flex-row align-items-center">{{ b.name }}</div>
+                  <div class="d-flex flex-row align-items-center">Shared by: {{ b.createdBy }}</div>
+                </a>
+              </div>
+            {{/each}}
+          </div>
         </div>
-      {{/each}}
-      <h1>Shared with Me</h1>
-      {{#each b in sharedVisualizations}}
-        <div class="col-md-2 d-flex">
-          <a href="{{pathFor 'view' _index=b.createdAt}}">
-            <img class="img-fluid" src="{{ b.image }}">
-            <div class="d-flex flex-row align-items-center">{{ b.name }}</div>
-          </a>
-        </div>
-      {{/each}}
       {{else}}
-      <div class="col-md-9">
-        <br><br>
-        <h4>You must be logged in to view your visualizations.</h4>
-      </div>
+        <div class="col-md-9">
+          <br><br>
+          <h4>You must be logged in to view your visualizations.</h4>
+        </div>
       {{/if}}
     </div>
   </div>
