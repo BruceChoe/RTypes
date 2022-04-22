@@ -104,7 +104,6 @@ legend(
   legend = paste("Group ", levels(factor(cluster2)),": ", table(cluster2)[levels(factor(cluster2))], sep ="")
 )
 dev.off()
-
 gc()
 
 
