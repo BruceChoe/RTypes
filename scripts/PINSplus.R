@@ -6,9 +6,6 @@ resultPath = args[8]
 #BiocManager::install("impute")
 library(PINSPlus)
 
-#load data into dataList
-load(paste(dataPath, dataset, ".RData" ,sep=""))
-
 #Start: Code Integration
 #This format of data organization was code integrated from Dr.Nguyen's lab
 load(dataPath)
@@ -73,7 +70,7 @@ dev.off()
 #)
 
 #Start: Code Integration
-#This method of generating survival plots was taken from the PINSPlus documentation and modified to fit our data
+#This method of generating survival plots was taught from the PINSPlus documentation and modified to fit our data
 cluster1=subtypeResults$cluster1;
 cluster2=subtypeResults$cluster2
 a <- intersect(unique(cluster2), unique(cluster1))

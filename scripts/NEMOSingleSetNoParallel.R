@@ -33,6 +33,7 @@ affinity.graph = nemo.affinity.graph(dataList)
 num.clusters = nemo.num.clusters(affinity.graph)
 clustering = spectralClustering(affinity.graph, num.clusters) 
 names(clustering) = colnames(affinity.graph)
+clusters_final_count = length(unique(clustering))
 
 png(paste(resultPath, "NEMO_Heatmap.png", sep=""),   
     width     = 3.25,
@@ -40,7 +41,12 @@ png(paste(resultPath, "NEMO_Heatmap.png", sep=""),
     units     = "in",
     res       = 1200,
     pointsize = 4)
-displayClustersWithHeatmap(affinity.graph, clustering)
+displayClustersWithHeatmap(affinity.graph, clustering,
+                           main = "Heatmap of Patient Similarity",
+                           xlab = "Patient ID",
+                           ylab = "Patient ID",
+                           margins= c(7,7)
+                           )
 dev.off()
 png(paste(resultPath,"NEMO_Alluvial.png", sep=""),
     width     = 3.25,
@@ -48,6 +54,6 @@ png(paste(resultPath,"NEMO_Alluvial.png", sep=""),
     units     = "in",
     res       = 1200,
     pointsize = 4)
-plotAlluvial(affinity.graph, 2:5, col="red")
+plotAlluvial(affinity.graph, 1:clusters_final_count, col=clustering)
 dev.off()
 gc()

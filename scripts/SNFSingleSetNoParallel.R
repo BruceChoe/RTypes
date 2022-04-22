@@ -38,22 +38,24 @@ for (i in 1:length(dataList)) {
 W = SNF(WList, K, NIT) # construct status matrix 
 C = estimateNumberOfClustersGivenGraph(W)[[1]] 
 group = spectralClustering(W,C) # final subtype info
+clusters_final_count = length(unique(group))
 
-#list(cluster = group, rt = running_time)
-#result$survival <- survival
-
-#VISUALIZATION 
-#print(W)
-#print(group)
-#displayClustersWithHeatmap(W, group)
-
+#expectation = cbind(group, group)
+#colnames(M_label) = c("spectralClustering", "spectralClustering")
+#expectation_colors = t(apply(M_label,1,getColorsForGroups))
 png(paste(resultPath, "SNF_Heatmap.png", sep=""), #paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
     units     = "in",
     res       = 1200,
     pointsize = 4)
-displayClustersWithHeatmap(W, group)
+displayClustersWithHeatmap(W, group, 
+                           #ColSideColors = expectation_colors[,"spectralClustering"],
+                           main = "Heatmap of Patient Similarity",
+                           xlab = "Patient ID",
+                           ylab = "Patient ID",
+                           margins= c(7,7),
+                           )
 dev.off()
 png(paste(resultPath, "SNF_Alluvial.png", sep=""), #paste(resultPath,"SNF_Alluvial_",dataset,".png",sep=""),   
     width     = 3.25,
@@ -61,6 +63,6 @@ png(paste(resultPath, "SNF_Alluvial.png", sep=""), #paste(resultPath,"SNF_Alluvi
     units     = "in",
     res       = 1200,
     pointsize = 4)
-plotAlluvial(W, 2:5, col="red")
+plotAlluvial(W, 1:clusters_final_count, col=sort(unique(group)))
 dev.off()
 gc()
