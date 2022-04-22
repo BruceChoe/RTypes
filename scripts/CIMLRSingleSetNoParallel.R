@@ -1,10 +1,15 @@
 # Adjust these
-dataset = "GBM"
-dataPath="D:\\CS 425 Project\\data\\"
-resultPath="D:\\CS 425 Project\\results\\"
+dataset = "KIRC"
+dataPath="C:\\Users\\bruce\\Documents\\GitHub\\RTypes\\scripts\\"
+resultPath="C:\\Users\\bruce\\Documents\\GitHub\\RTypes\\scripts\\results\\"
 
-library(CIMLR)
+#if (!require("BiocManager", quietly = TRUE))
+#  install.packages("BiocManager")
+#BiocManager::install("SIMLR", force = TRUE)
 
+library(SIMLR)
+data("BuettnerFlorian")
+bf_view <- BuettnerFlorian$in_X
 #load data into dataList
 load(paste(dataPath, dataset, ".RData" ,sep=""))
 
@@ -27,10 +32,12 @@ for (i in 1:length(dataList)) {
 }
 
 NUMC <- 2:5
-k <- CIMLR_Estimate_Number_of_Clusters(dataList, NUMC, cores.ratio = 1/64) # estimate # of clusters 
-k <- NUMC[which.min(k$K1)] #heuristic
+k <- SIMLR_Estimate_Number_of_Clusters(dataList[[3]], NUMC, cores.ratio = 1/2) # estimate # of clusters 
+#k <- NUMC[which.min(k$K1)] #heuristic
 
-result <- CIMLR(dataList, k, cores.ratio = 1/64) #looking for k subtypes
+#x <- as.numeric(dataList[[2]])
+#matrix = matrix(unlist(dataList[[2]]))
+result <- SIMLR(X = mydatGE, c = k, cores.ratio = 1/2) #looking for k subtypes
 print(result$y)
 
 cluster <- result$y$cluster
