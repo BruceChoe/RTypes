@@ -105,6 +105,6 @@ legend(
 )
 dev.off()
 
-
+gc()
 
 
