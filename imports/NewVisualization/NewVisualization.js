@@ -10,8 +10,10 @@ import HugeUploader from "huge-uploader";
 
 // imagePaths: list
 function displayImage(imagePaths) {
+    let imagePane = document.getElementById("imagePane");
+    imagePane.textContent = "";
+    
     imagePaths.forEach((path) => {
-        let imagePane = document.getElementById("imagePane");
         let image = document.createElement("img");
         image.setAttribute("src", path);
         image.setAttribute("class", "img-fluid");

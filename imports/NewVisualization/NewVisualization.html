@@ -5,51 +5,57 @@
       {{> sidebar }}
 
       {{#if loggedIn}}
-      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">        
-        <section>
-          <div class="row">
-            <div class="col">
-              {{> fileUpload }} <br>
-              {{> tools }} <br>
-              {{> invokeScript }}
-            </div>
-            <div class="col-10" id="imagePane">
-            </div>
-            <div class="col">
-              {{> saveVisualization }}
-              {{> downloadVisualizationNewPage }}
-            </div>
+      <div class="col-md-9">        
+        <div class="row mt-3">
+          <div class="col form-group">
+            {{> fileUpload }}
+            <hr>
+            {{> tools }}
+            {{> invokeScript }}
+            <hr>
+            {{> saveVisualization }}
+            <hr>
+            {{> downloadVisualizationNewPage }}
           </div>
-        </section>
-      </main>
-      {{else}}
-      <div class="col-md-9">
-        <br><br>
-        <h4>You must be logged in to create a new visualization.</h4>
+          <div class="col" id="imagePane">
+            Your visualizations will appear here once generated.
+          </div>
+        </div>
       </div>
+      {{else}}
+        <div class="col-md-9">
+          <br><br>
+          <h4>You must be logged in to create a new visualization.</h4>
+        </div>
       {{/if}}
     </div>
   </div>
 </template>
 
 <template name="fileUpload">
-  <div class="col-2">
-	  <p>Upload input file...</p>
-	  <input type="file"/>
-    <progress id="fileUpload-progress" max="100" value="0"></progress>
+  <div class="form-group">
+	  <label class="w-100">Upload input file...</label>
+	  <input type="file" class="w-50">
+    <progress id="fileUpload-progress" max="100" value="0" class="w-50 mt-2 progress-bar"></progress>
   </div>
 </template>
 
 <template name="invokeScript">
-	<button id="generateButton" disabled="true">Generate</button>
-  <div id="invokeScript-spinner"></div>
+	<div class="form-group">
+    <button id="generateButton" disabled="true" class="btn btn-primary">Generate</button>
+    <div id="invokeScript-spinner"></div>
+  </div>
 </template>
 
 <template name="saveVisualization">
-	<button id="saveButton" disabled="true">Save</button>
-  <input type="text" id="visualizationName">
-  <textarea id="visualizationDescription"></textarea>
-  <div id="feedbackText"></div>
+  <div class="form-group">
+    <label>Enter a name for your visualization:</label>
+    <input type="text" id="visualizationName" class="form-control">
+    <label class="mt-4">Enter a descritpion for your visualization:</label>
+    <textarea id="visualizationDescription" class="form-control"></textarea>
+    <button id="saveButton" disabled="true" class="btn btn-primary form-control mt-4">Save</button>
+    <div id="feedbackText"></div>
+  </div>
 </template>
 
 <template name="testMkdir">
@@ -57,13 +63,16 @@
 </template>
 
 <template name="tools">
-  <select name="SubType">
-    {{#each toolNames}}
-      <option value="{{ name }}">{{ name }}</option>
-    {{/each}}
-  </select>
+  <div class="form-group">
+    <label>Select subtyping tool...</label>
+    <select name="SubType" class="form-control form-select">
+      {{#each toolNames}}
+        <option value="{{ name }}">{{ name }}</option>
+      {{/each}}
+    </select>
+  </div>
 </template>
 
 <template name="downloadVisualizationNewPage">
-  <button id="downloadButton" disabled="true">Download as .zip file</button>
+  <button id="downloadButton" disabled="true" class="btn btn-primary form-control">Download as .zip file</button>
 </template>
