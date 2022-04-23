@@ -6,17 +6,25 @@
 
       {{#if canView visualizationId}}
         {{#if loggedIn}}
-          <h1>{{ getData visualizationId "name" }}</h1>
-          <h2>Author: {{ getData visualizationId "createdBy" }}</h2>
-          <p>{{ getData visualizationId "description" }}</p>
+          <div class="col-9">
+            <div class="row">
+              <h1 class="col">{{ getData visualizationId "name" }}</h1>
+              <div class="w-100"></div>
+              <h2 class="col">Author: {{ getData visualizationId "createdBy" }}</h2>
+              <div class="w-100"></div>
+              <p class="col">{{ getData visualizationId "description" }}</p>
+              <div class="w-100"></div>
+              {{> downloadVisualization visualizationId}}
+              <div class="w-100"></div>
+              {{> shareVisualization visualizationId}}
+              <div class="w-100"></div>
 
-          <div class="col-9" id="imagePane">
-          {{#each img in getData visualizationId "images" }}
-            {{> visualizationImageBox img=img }}
-          {{/each}}
-
-          {{> downloadVisualization visualizationId}}
-          {{> shareVisualization visualizationId}}
+              <div class="col" id="imagePane">
+                {{#each img in getData visualizationId "images" }}
+                  {{> visualizationImageBox img=img }}
+                {{/each}}
+              </div>
+            </div>
           </div>
         {{else}}
           <div class="col-md-9">
@@ -39,7 +47,7 @@
 </template>
 
 <template name="shareVisualization">
-  <button id="shareButton">Share</button>
-  <input type="email" id="emailField">
+  <input type="email" id="emailField" placeholder="Share with someone..." class="col-md-2 mr-2 mt-2">
+  <button id="shareButton" class="btn btn-primary">Share</button>
   <div id="emailFeedback"></div>
 </template>
