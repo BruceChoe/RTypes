@@ -12,7 +12,7 @@ import HugeUploader from "huge-uploader";
 function displayImage(imagePaths) {
     let imagePane = document.getElementById("imagePane");
     imagePane.textContent = "";
-    
+
     imagePaths.forEach((path) => {
         let image = document.createElement("img");
         image.setAttribute("src", path);
@@ -44,6 +44,12 @@ const toolParams = [
         timestamp: null,
         clusters: null,
         neighbors: null
+    },
+    {
+        toolName: "PINSplus",
+        inputFile: null,
+        outputFilePrefix: "PINS",
+        timestamp: null,
     }
 ];
 
@@ -240,7 +246,8 @@ Template.tools.helpers({
 
 Template.tools.events({
     "change select"(event, instance) {
-        selectedTool.set(instance.firstNode.options.selectedIndex);
+        let select = document.getElementById("toolSelection");
+        selectedTool.set(select.options.selectedIndex);
     }
 });
 

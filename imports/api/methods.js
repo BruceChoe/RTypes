@@ -74,9 +74,9 @@ if (Meteor.isServer)
                     toolPath = path.join(rootPath, "scripts", "NEMOSingleSetNoParallel.R");
                     console.log(toolPath);
                     break;
-                case "CIMLR":
-                    console.log("CIMLR detected");
-                    toolPath = path.join(rootPath, "scripts", "CIMLRSingleSetNoParallel.R");
+                case "PINSplus":
+                    console.log("PINSplus detected");
+                    toolPath = path.join(rootPath, "scripts", "PINSplus.R");
                     console.log(toolPath);
                     break;
                 default:
