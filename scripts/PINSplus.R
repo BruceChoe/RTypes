@@ -5,6 +5,7 @@ dataPath = args[7]
 resultPath = args[8]
 #BiocManager::install("impute")
 library(PINSPlus)
+library(survival)
 
 #Start: Code Integration
 #This format of data organization was code integrated from Dr.Nguyen's lab
