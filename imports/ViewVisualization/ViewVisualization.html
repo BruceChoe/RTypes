@@ -6,11 +6,11 @@
 
       {{#if canView visualizationId}}
         {{#if loggedIn}}
-          <div class="col-9">
-            <div class="row">
-              <div class="col">
-                <h1>{{ getData visualizationId "name" }}</h1>
-                <h3>Author: {{ getData visualizationId "createdBy" }}</h3>
+          <div class="col px-4">
+            <div class="row mt-3">
+              <div class="col-3">
+                <div class="display-4 mb-3">{{ getData visualizationId "name" }}</div>
+                <div class="lead mb-3">Author: {{ getData visualizationId "createdBy" }}</div>
                 <p>{{ getData visualizationId "description" }}</p>
                 <hr>
                 <div class="form-group">
@@ -19,24 +19,23 @@
                   {{> shareVisualization visualizationId}}
                 </div>
               </div>
-
+              <div class="col-1"></div>
               <div class="col" id="imagePane">
                 {{#each img in getData visualizationId "images" }}
                   {{> visualizationImageBox img=img }}
                 {{/each}}
               </div>
+              <div class="col-1"></div>
             </div>
           </div>
         {{else}}
-          <div class="col-md-9">
-            <br><br>
-            <h4>You must be logged in to view your visualizations.</h4>
+          <div class="col px-4">
+            <div style="font-size: 1.5rem" class="mt-3">You must be logged in to view your visualizations.</div>
           </div>
         {{/if}}
       {{else}}
-        <div class="col-md-9">
-          <br><br>
-          <h4>You are not allowed to view this visualization.</h4>
+        <div class="col px-4">
+          <div style="font-size: 1.5rem" class="mt-3">You are not allowed to view this visualization.</div>
         </div>
       {{/if}}
     </div>
