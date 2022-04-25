@@ -14,9 +14,12 @@
                 <p>{{ getData visualizationId "description" }}</p>
                 <hr>
                 <div class="form-group">
-                  {{> downloadVisualization visualizationId}}
+                  {{> downloadVisualization visualizationId }}
                   <hr>
-                  {{> shareVisualization visualizationId}}
+                  {{> shareVisualization visualizationId }}
+                </div>
+                <div class="form-group">
+                  {{> deleteVisualization visualizationId }}
                 </div>
               </div>
               <div class="col-1"></div>
@@ -51,4 +54,11 @@
   <input type="email" id="emailField" placeholder="Email address" class="form-control mt-1">
   <button id="shareButton" class="btn btn-primary form-control mt-3">Share</button>
   <div id="emailFeedback"></div>
+</template>
+
+<template name="deleteVisualization">
+  {{#if isCurrentUserAuthor ../visualizationId }}
+    <hr>
+    <button id="deleteButton" class="btn btn-danger form-control mt-3">Delete this visualization</button>
+  {{/if}}
 </template>

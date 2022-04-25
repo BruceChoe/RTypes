@@ -1,6 +1,7 @@
 import { Meteor } from "meteor/meteor";
 import { EJSON } from "meteor/ejson";
 import { Template } from "meteor/templating";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 
 import { Visualizations } from "/imports/api/visualizations";
 import { Shares } from "/imports/api/shares";
@@ -73,5 +74,29 @@ Template.shareVisualization.events({
             feedback.setAttribute("style", "");
         });
         return;
+    }
+});
+
+Template.deleteVisualization.helpers({
+    isCurrentUserAuthor: (visualizationId) => {
+        let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
+        let user = Meteor.user();
+        let username = user.emails[0].address;
+
+        console.log(username);
+        console.log(visualizationId);
+        console.log(visualization.createdBy);
+
+        console.log(username === visualization.createdBy);
+
+        return username === visualization.createdBy;
+    }
+});
+
+Template.deleteVisualization.events({
+    "click button": (event, instance) => {
+        console.log(instance.data);
+        Meteor.call("deleteVisualization", instance.data);
+        FlowRouter.go("/saved");
     }
 });

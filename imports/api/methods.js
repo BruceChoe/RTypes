@@ -74,8 +74,8 @@ if (Meteor.isServer)
                     toolPath = path.join(rootPath, "scripts", "NEMOSingleSetNoParallel.R");
                     console.log(toolPath);
                     break;
-                case "PINSplus":
-                    console.log("PINSplus detected");
+                case "PINSPlus":
+                    console.log("PINSPlus detected");
                     toolPath = path.join(rootPath, "scripts", "PINSplus.R");
                     console.log(toolPath);
                     break;
@@ -183,6 +183,10 @@ if (Meteor.isServer)
             }
 
             return false;
+        },
+
+        deleteVisualization(visualizationId) {
+            Visualizations.remove({createdAt: visualizationId});
         }
     });
 }

@@ -12,6 +12,7 @@ FlowRouter.route("/", {
     name: "index",
     action() {
         BlazeLayout.render("index");
+        window.scrollTo(0, 0);
     }
 });
 
@@ -21,6 +22,7 @@ FlowRouter.route("/new", {
     name: "new",
     action() {
         BlazeLayout.render("newVisualization");
+        window.scrollTo(0, 0);
     }
 });
 
@@ -30,6 +32,7 @@ FlowRouter.route("/saved", {
     name: "saved",
     action() {
         BlazeLayout.render("savedVisualization");
+        window.scrollTo(0, 0);
     }
 });
 
@@ -39,6 +42,7 @@ FlowRouter.route("/view/:_index", {
     name: "view",
     action(params) {
         BlazeLayout.render("viewVisualization", {visualizationId: parseInt(params._index)});
+        window.scrollTo(0, 0);
     }
 });
 
@@ -47,6 +51,7 @@ FlowRouter.route("/view/:_index", {
 FlowRouter.route("*", {
     action() {
         BlazeLayout.render("404");
+        window.scrollTo(0, 0);
         throw new Meteor.Error(404);
     }
 });

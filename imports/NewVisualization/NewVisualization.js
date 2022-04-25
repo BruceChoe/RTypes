@@ -46,7 +46,7 @@ const toolParams = [
         neighbors: null
     },
     {
-        toolName: "PINSplus",
+        toolName: "PINSPlus",
         inputFile: null,
         outputFilePrefix: "PINS",
         timestamp: null,
