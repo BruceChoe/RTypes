@@ -2,6 +2,7 @@
 import { Meteor } from "meteor/meteor";
 import { EJSON } from "meteor/ejson";
 import { Template } from "meteor/templating";
+import { FlowRouter } from "meteor/ostrio:flow-router-extra";
 
 import "/imports/api/methods";
 import { Comms } from "/imports/api/comms";
@@ -26,6 +27,7 @@ const startupTime = new Date().getTime();
 let selectedTool = new ReactiveVar(null);
 let uploadedFile = new ReactiveVar(null);
 let visualizationInfo = new ReactiveVar(null);
+let canSave = new ReactiveVar(null);
 
 const toolParams = [
     {
@@ -116,6 +118,7 @@ Template.newVisualization.onCreated(() => {
         createdAt: null,
         images: []
     });
+    canSave.set(false);
 });
 
 Template.newVisualization.helpers({
@@ -137,7 +140,7 @@ Template.saveVisualization.events({
         let feedback = document.getElementById("feedbackText");
         feedback.textContent = "";
 
-        if (name.value === "") {
+        if (name.value.trim() === "") {
             console.log("visualization must have a name");
             feedback.setAttribute("style", "color: red;");
             feedback.textContent = "Visualizations must have a name.";
@@ -149,14 +152,21 @@ Template.saveVisualization.events({
             createdBy: info.createdBy,
             createdAt: info.createdAt,
             images: info.images,
-            name: name.value,
+            name: name.value.trim(),
             description: description.value
         });
         console.log("saved");
 
-        // enable download
-        let downloadButton = document.getElementById("downloadButton");
-        downloadButton.removeAttribute("disabled");
+        FlowRouter.go("saved");
+        // // enable download
+        // let downloadButton = document.getElementById("downloadButton");
+        // downloadButton.removeAttribute("disabled");
+    },
+
+    "input #visualizationName": (event, instance) => {
+        console.log(event);
+        console.log(event.target);
+        console.log(event.target.value.trim() === "");
     }
 });
 
