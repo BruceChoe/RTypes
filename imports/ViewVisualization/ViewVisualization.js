@@ -16,13 +16,44 @@ Meteor.subscribe("shares", {
     onStop:  (param) => { console.log("subscribe onStop / "  + param); }
 });
 
+let showConfirmButton = new ReactiveVar(null);
+let visualizationInfo = new ReactiveVar(null);
+let visualizationToDelete = new ReactiveVar(null);
+let shouldDelete = new ReactiveVar(null);
+
+let resetReactives = () => {
+    showConfirmButton.set(false);
+    visualizationInfo.set(null);
+    visualizationToDelete.set(null);
+    shouldDelete.set(false);
+};
+
+Template.viewVisualization.onCreated(() => {
+    // ensure default values are set
+    resetReactives();
+});
+
+Template.viewVisualization.onDestroyed(() => {
+    // if we are deleting a visualization, delete it when we leave the page
+    if (visualizationToDelete.get())
+        Meteor.call("deleteVisualization", visualizationToDelete.get());
+    visualizationToDelete.set(null);
+});
+
 Template.viewVisualization.helpers({
     getData: (visualizationId, key) => {
         let user = Meteor.user();
         if (!user) return [];
 
         let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
+        if (!visualization) return [];
+
         let value = visualization[`${key}`];
+
+        // this is a real hack fix but it makes sure the data is loaded properly
+        // store a copy of the visualization info to write back to the database if the user wants to undo a deletion
+        if (!visualizationInfo.get())
+            visualizationInfo.set(visualization);
 
         if (value)
             return value;
@@ -37,9 +68,12 @@ Template.viewVisualization.helpers({
         let username = user.emails[0].address;
 
         let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
+        if (!visualization) return false;
+
         if (username === visualization.createdBy) return true;
 
         let shares = Shares.find({username: username}).fetch()[0];
+        if (!shares) return false;
         if (shares.shares.includes(visualizationId)) return true;
 
         return false;
@@ -77,26 +111,39 @@ Template.shareVisualization.events({
     }
 });
 
+Template.shareVisualization.helpers({
+    isCurrentUserAuthor: (visualizationId) => {
+        let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
+        let user = Meteor.user();
+        let username = user.emails[0].address;
+
+        return username === visualization.createdBy;
+    }
+});
+
 Template.deleteVisualization.helpers({
     isCurrentUserAuthor: (visualizationId) => {
         let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
         let user = Meteor.user();
         let username = user.emails[0].address;
 
-        console.log(username);
-        console.log(visualizationId);
-        console.log(visualization.createdBy);
-
-        console.log(username === visualization.createdBy);
-
         return username === visualization.createdBy;
+    },
+
+    showUndo: () => {
+        return showConfirmButton.get();
     }
 });
 
 Template.deleteVisualization.events({
-    "click button": (event, instance) => {
-        console.log(instance.data);
+    "click #deleteButton": (event, instance) => {
+        showConfirmButton.set(true);
+        visualizationToDelete.set(instance.data);
+        console.log(visualizationToDelete.get());
+    },
+
+    "click #deleteConfirmButtton": (event, instance) => {
         Meteor.call("deleteVisualization", instance.data);
-        FlowRouter.go("/saved");
+        FlowRouter.go("index");
     }
 });

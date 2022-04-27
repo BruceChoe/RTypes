@@ -11,7 +11,7 @@
               <div class="col-3">
                 <div class="display-4 mb-3">{{ getData visualizationId "name" }}</div>
                 <div class="lead mb-3">Author: {{ getData visualizationId "createdBy" }}</div>
-                <p>{{ getData visualizationId "description" }}</p>
+                <div class="text-wrap">{{ getData visualizationId "description" }}</div>
                 <hr>
                 <div class="form-group">
                   {{> downloadVisualization visualizationId }}
@@ -50,15 +50,22 @@
 </template>
 
 <template name="shareVisualization">
-  <label>Share this visualization:</label>
-  <input type="email" id="emailField" placeholder="Email address" class="form-control mt-1">
-  <button id="shareButton" class="btn btn-primary form-control mt-3">Share</button>
-  <div id="emailFeedback"></div>
+  {{#if isCurrentUserAuthor ../visualizationId }}
+    <label>Share this visualization:</label>
+    <input type="email" id="emailField" placeholder="Email address" class="form-control mt-1">
+    <button id="shareButton" class="btn btn-primary form-control mt-3">Share</button>
+    <div id="emailFeedback"></div>
+  {{/if}}
 </template>
 
 <template name="deleteVisualization">
   {{#if isCurrentUserAuthor ../visualizationId }}
     <hr>
-    <button id="deleteButton" class="btn btn-danger form-control mt-3">Delete this visualization</button>
+    {{#unless showUndo}}
+      <button id="deleteButton" class="btn btn-danger form-control mt-3">Delete this visualization</button>
+    {{else}}
+      Are you sure you want to delete this visualization?
+      <button id="deleteConfirmButtton" class="btn btn-danger form-control mt-3">Yes, I'm sure</button>
+    {{/unless}}
   {{/if}}
 </template>

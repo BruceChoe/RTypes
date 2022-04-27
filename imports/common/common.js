@@ -27,6 +27,7 @@ Template.sidebarSharedWithMe.helpers({
         let username = user.emails[0].address;
 
         let sharedVisualizations = Shares.find({username: username}).fetch();
+        if (!sharedVisualizations[0]) return [];
         console.log(sharedVisualizations[0].shares);
 
         let visualizations = [];

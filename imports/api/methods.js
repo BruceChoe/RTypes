@@ -187,6 +187,10 @@ if (Meteor.isServer)
 
         deleteVisualization(visualizationId) {
             Visualizations.remove({createdAt: visualizationId});
+        },
+
+        undoDeletion(visualizationInfo) {
+            Visualizations.insert(visualizationInfo);
         }
     });
 }
