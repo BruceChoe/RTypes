@@ -53,7 +53,7 @@ Picker.route("/download/:_id", (params, req, res, next) => {
     let zipBuffer = zip.toBuffer();
     res.writeHead(200, {
         "Content-Type": "application/zip",
-        "Content-Disposition": `attachment; filename=${createdAt}.zip`
+        "Content-Disposition": `attachment; filename=${visualization.name}.zip`
     });
     res.end(zipBuffer);
 });

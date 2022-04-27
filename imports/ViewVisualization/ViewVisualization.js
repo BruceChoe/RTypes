@@ -144,6 +144,6 @@ Template.deleteVisualization.events({
 
     "click #deleteConfirmButtton": (event, instance) => {
         Meteor.call("deleteVisualization", instance.data);
-        FlowRouter.go("index");
+        FlowRouter.go("saved");
     }
 });
