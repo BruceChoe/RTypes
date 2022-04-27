@@ -173,8 +173,19 @@ Template.testMkdir.events({
 Template.fileUpload.events({
     "change input": (ev) => {
         let progressBar = document.getElementById("fileUpload-progress");
-
         let file = ev.currentTarget.files[0];
+        let feedback = document.getElementById("fileUploadFeedback");
+        feedback.textContent = "";
+        feedback.setAttribute("style", "");
+
+        console.log(file.name);
+        if (!file.name.match(/.*\.[Rr][Dd]ata/)) {
+            console.log("invalid file uploaded");
+            feedback.textContent = "File must be a .RData file.";
+            feedback.setAttribute("style", "color: red;");
+            return;
+        }
+
         let user = Meteor.user();
         if (!user)
         {
