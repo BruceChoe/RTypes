@@ -51,5 +51,6 @@ Template.downloadVisualization.events({
         // instance has a data field: this is the data that is passed to the template in the html template
         // here, it is the visualization ID
         window.location.href = "/download/" + instance.data;
+        FlowRouter.go("");
     }
 });
