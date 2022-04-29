@@ -28,7 +28,7 @@ pca_generate.function <- function(pca_x, cluster, dataset, matrix_name) {
   plot(
     prcomp(x = pca_x)$x,
     col = cluster,
-    main = paste("Principle Component Analysis of ", dataset, "_", matrix_name, sep="")
+    main = paste("Principal Component Analysis of ", dataset, "_", matrix_name, sep="")
   )
   legend(
     "topright",
