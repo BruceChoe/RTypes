@@ -46,12 +46,18 @@ FlowRouter.route("/view/:_index", {
     }
 });
 
-
-
 FlowRouter.route("*", {
     action() {
         BlazeLayout.render("404");
         window.scrollTo(0, 0);
         throw new Meteor.Error(404);
     }
+});
+
+Accounts.onLogin(() => {
+    FlowRouter.go("index");
+});
+
+Accounts.onLogout(() => {
+    FlowRouter.go("index");
 });

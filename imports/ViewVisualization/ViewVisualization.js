@@ -107,9 +107,6 @@ Template.shareVisualization.events({
             feedback.textContent = "Visualization shared with user " + username + ".";
             feedback.setAttribute("style", "");
         });
-        console.log("shared")
-
-        FlowRouter.go("shared")
         return;
     }
 });
@@ -148,6 +145,5 @@ Template.deleteVisualization.events({
     "click #deleteConfirmButtton": (event, instance) => {
         Meteor.call("deleteVisualization", instance.data);
         FlowRouter.go("saved");
-
     }
 });

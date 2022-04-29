@@ -239,7 +239,7 @@ Template.fileUpload.events({
 Template.invokeScript.events({
     "click button"(event, instance) {
         let progressBar = document.getElementById("invokeScript-spinner");
-        progressBar.setAttribute("class", "spinner-border");
+        progressBar.setAttribute("class", "spinner-border btn");
 
         let params = toolParams[selectedTool.get()];
         params.inputFile = uploadedFile.get().serverName;

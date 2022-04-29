@@ -15,6 +15,10 @@
                   <div>{{ b.name }}</div>
                 </a>
               </div>
+            {{else}}
+            <div class="col-4 lead text-muted">
+              <em>No saved visualizations.</em>
+            </div>
             {{/each}}
             <div class="w-100"></div>
             <h1 class="col display-4 mt-3">Shared with Me</h1>
@@ -26,6 +30,10 @@
                   <div class="d-flex flex-row align-items-center">{{ b.name }}</div>
                   <div class="d-flex flex-row align-items-center">Shared by: {{ b.createdBy }}</div>
                 </a>
+              </div>
+            {{else}}
+              <div class="col-4 lead text-muted">
+                <em>No shared visualizations.</em>
               </div>
             {{/each}}
           </div>

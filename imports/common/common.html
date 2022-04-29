@@ -46,6 +46,10 @@
         {{ item.name }}
       </a>
     </li>
+  {{else}}
+    <li class="nav-item nav-link text-muted">
+      <em>No saved visualizations.</em>
+    </li>
   {{/each}}
   {{else}}
   <li class="nav-item">
@@ -62,6 +66,10 @@
           <span data-feather="file-text"></span>
           {{ item.name }}
         </a>
+      </li>
+    {{else}}
+      <li class="nav-item nav-link text-muted">
+        <em>No shared visualizations.</em>
       </li>
     {{/each}}
   {{else}}
