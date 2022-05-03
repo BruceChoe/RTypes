@@ -26,21 +26,26 @@ survival=survival[patients,]
 dataList <- list(mydatGE, mydatME, mydatMI)
 #End: Code Integration
 
-
+#Load and transpose data
 for (i in 1:length(dataList)) {
   dataList[[i]] <- t(dataList[[i]])
 }
 
+#Parameters
 NUMC <- 2:5
 k <- SIMLR_Estimate_Number_of_Clusters(dataList[[3]], NUMC, cores.ratio = 1/2) # estimate # of clusters 
 #k <- NUMC[which.min(k$K1)] #heuristic
 
 #x <- as.numeric(dataList[[2]])
 #matrix = matrix(unlist(dataList[[2]]))
+
+#Attempt SIMLR analysis
 result <- SIMLR(X = mydatGE, c = k, cores.ratio = 1/2) #looking for k subtypes
 print(result$y)
 
 cluster <- result$y$cluster
+
+# Visualize Results
 png(paste(resultPath,"CIMLR_seperation_",dataset,".png"),   
     width     = 3.25,
     height    = 3.25,

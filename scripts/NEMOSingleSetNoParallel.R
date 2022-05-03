@@ -23,18 +23,21 @@ survival=survival[patients,]
 dataList <- list(mydatGE, mydatME, mydatMI)
 #End: Code Integration
 
+#Load and transpose data
 for (i in 1:length(dataList)) {
   data <- dataList[[i]]
   dataList[[i]] <- t(data)
 }
 
 #clustering = nemo.clustering(dataList) # Parameters: num.Clusters and num.neighbors
-affinity.graph = nemo.affinity.graph(dataList)
-num.clusters = nemo.num.clusters(affinity.graph)
-clustering = spectralClustering(affinity.graph, num.clusters) 
-names(clustering) = colnames(affinity.graph)
+
+affinity.graph = nemo.affinity.graph(dataList) #Generate similarity graph
+num.clusters = nemo.num.clusters(affinity.graph) #Get cluster info from similarity graph
+clustering = spectralClustering(affinity.graph, num.clusters) #Spectral clustering 
+names(clustering) = colnames(affinity.graph) 
 clusters_final_count = length(unique(clustering))
 
+#Generate heatmap
 png(paste(resultPath, "NEMO_Heatmap.png", sep=""),   
     width     = 3.25,
     height    = 3.25,
@@ -48,6 +51,8 @@ displayClustersWithHeatmap(affinity.graph, clustering,
                            margins= c(7,7)
                            )
 dev.off()
+
+#Generate alluvial
 png(paste(resultPath,"NEMO_Alluvial.png", sep=""),
     width     = 3.25,
     height    = 3.25,
