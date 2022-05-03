@@ -1,4 +1,4 @@
-# Adjust these 
+# Load arguments from front-end
 dataset = "KIRC"
 args = commandArgs(trailingOnly=FALSE)
 dataPath = args[7]
@@ -20,29 +20,34 @@ mydatMI=as.matrix(mydatMI[patients,])
 survival=survival[patients,]
 #End: Code  Integration
 
+#Load gene expression matrices into list
 dataList <- list(mydatGE, mydatME, mydatMI)
 
-#RUNSNF
+#SNF parameters
 K = 20;		# number of neighbors, usually (10~30)
 alpha = 0.5;  	# hyperparameter, usually (0.3~0.8)
 NIT = 10; 	# Number of Iterations, usually (10~20)
 
-WList <- list()
+WList <- list() # create list to store similarity graphs 
+
+#Prep individual data matrices for fusion
 for (i in 1:length(dataList)) {
   data <- dataList[[i]]
-  data <- standardNormalization(data)
+  data <- standardNormalization(data) #normalize matrix
   PSM <- dist2(as.matrix(data), as.matrix(data));  #calculate pair-wise distance
   W <- affinityMatrix(PSM, K, alpha)  # construct similarity graphs
-  WList[[i]] <- W
+  WList[[i]] <- W #Load affinity matrices into list
 }
-W = SNF(WList, K, NIT) # construct status matrix 
-C = estimateNumberOfClustersGivenGraph(W)[[1]] 
-group = spectralClustering(W,C) # final subtype info
+W = SNF(WList, K, NIT)  #construct status matrix by fusing all graphs
+C = estimateNumberOfClustersGivenGraph(W)[[1]] #[[1]] takes eigen-gap best to estimate clusters
+group = spectralClustering(W,C) # final subtype info; affinity, # clusters, type
 clusters_final_count = length(unique(group))
 
 #expectation = cbind(group, group)
 #colnames(M_label) = c("spectralClustering", "spectralClustering")
 #expectation_colors = t(apply(M_label,1,getColorsForGroups))
+
+#Generate heatmap
 png(paste(resultPath, "SNF_Heatmap.png", sep=""), #paste(resultPath,"SNF_HeatMap_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
@@ -57,6 +62,8 @@ displayClustersWithHeatmap(W, group,
                            margins= c(7,7),
                            )
 dev.off()
+
+#Generate alluvial
 png(paste(resultPath, "SNF_Alluvial.png", sep=""), #paste(resultPath,"SNF_Alluvial_",dataset,".png",sep=""),   
     width     = 3.25,
     height    = 3.25,
