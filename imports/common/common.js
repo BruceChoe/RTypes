@@ -6,6 +6,7 @@ import { Visualizations } from "/imports/api/visualizations";
 import { Shares } from "/imports/api/shares";
 
 Template.sidebarVisualizationItems.helpers({
+    // lists all visualizations available to the user
     visualizations: () => {
         let user = Meteor.user();
         if (!user)
@@ -19,6 +20,7 @@ Template.sidebarVisualizationItems.helpers({
 });
 
 Template.sidebarSharedWithMe.helpers({
+    // lists all visualizations shared with the user
     sharedVisualizations: () => {
         console.log("asdfasd");
         let user = Meteor.user();
@@ -41,6 +43,7 @@ Template.sidebarSharedWithMe.helpers({
     }
 });
 
+// common helper used to determine if a user is logged in
 Template.registerHelper("loggedIn", () => {
     return Meteor.user() != null;
 });

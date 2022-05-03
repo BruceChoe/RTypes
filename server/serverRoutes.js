@@ -10,6 +10,8 @@ import { Visualizations } from '/imports/api/visualizations.js';
 
 const rootPath = "../../../../../";
 
+// returns a visualization image given a username and a filename
+// intended to be used with data from the Visualizations collection
 Picker.route("/img/:_user/:_name", (params, req, res, next) => {
     console.log(params._user, params._name);
     let imgPath = rootPath + "users/" + params._user + "/visualizations/" + params._name;
@@ -32,6 +34,7 @@ Picker.route("/img/:_user/:_name", (params, req, res, next) => {
 });
 
 // visualization donwloads
+// downloads the images of the specified visualization as a .zip file
 Picker.route("/download/:_id", (params, req, res, next) => {
     let createdAt = parseInt(params._id);
     console.log(createdAt);
@@ -58,6 +61,7 @@ Picker.route("/download/:_id", (params, req, res, next) => {
     res.end(zipBuffer);
 });
 
+// upload an .RData file to the server for processing
 Picker.route("/upload", (params, req, res, next) => {
     let tmpDir = rootPath + "temp/";
     let maxFileSize = 10;

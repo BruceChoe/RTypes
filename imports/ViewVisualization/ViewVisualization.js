@@ -41,6 +41,7 @@ Template.viewVisualization.onDestroyed(() => {
 });
 
 Template.viewVisualization.helpers({
+    // get the information of the specified visualization
     getData: (visualizationId, key) => {
         let user = Meteor.user();
         if (!user) return [];
@@ -61,6 +62,7 @@ Template.viewVisualization.helpers({
             return [];
     },
 
+    // returns whether or not the current user can see the specified visualization
     canView: (visualizationId) => {
         let user = Meteor.user();
         if (!user) return false;
@@ -81,6 +83,7 @@ Template.viewVisualization.helpers({
 });
 
 Template.shareVisualization.events({
+    // shares a visualization with another user, if the user exists
     "click button": (event, instance) => {
         let user = Meteor.user();
         if (!user)
@@ -112,6 +115,7 @@ Template.shareVisualization.events({
 });
 
 Template.shareVisualization.helpers({
+    // determines if the current user is the author of the specified visualization
     isCurrentUserAuthor: (visualizationId) => {
         let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
         let user = Meteor.user();
@@ -122,6 +126,7 @@ Template.shareVisualization.helpers({
 });
 
 Template.deleteVisualization.helpers({
+    // determines if the current user is the author of the specified visualization
     isCurrentUserAuthor: (visualizationId) => {
         let visualization = Visualizations.find({createdAt: visualizationId}).fetch()[0];
         let user = Meteor.user();
@@ -130,18 +135,21 @@ Template.deleteVisualization.helpers({
         return username === visualization.createdBy;
     },
 
+    // whether or not to show the delete confirm button
     showUndo: () => {
         return showConfirmButton.get();
     }
 });
 
 Template.deleteVisualization.events({
+    // shows the confirm button before deleting
     "click #deleteButton": (event, instance) => {
         showConfirmButton.set(true);
         visualizationToDelete.set(instance.data);
         console.log(visualizationToDelete.get());
     },
 
+    // actually delete the visualization
     "click #deleteConfirmButtton": (event, instance) => {
         Meteor.call("deleteVisualization", instance.data);
         FlowRouter.go("saved");

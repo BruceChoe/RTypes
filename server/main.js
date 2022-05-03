@@ -6,6 +6,7 @@ import { Shares } from '/imports/api/shares';
 
 import '/server/serverRoutes.js';
 
+// allow the client to access the MongoDB collections used by the application
 Meteor.startup(() => {
   Meteor.publish('comms', () => {
     return Comms.find({});

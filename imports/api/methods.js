@@ -1,5 +1,3 @@
-// file uploding code courtesy of https://gist.github.com/dariocravero/3922137
-
 import { Meteor } from 'meteor/meteor';
 
 import { Comms } from './comms';
@@ -17,6 +15,7 @@ const bindEnv = Meteor.bindEnvironment((callback) => {callback();});
 if (Meteor.isServer)
 {
     Meteor.methods({
+        // takes in a file from the client and saves it to the server's disk
         saveFile(user, blob, name, path, encoding) {
             // yes, this isn't an accurate save time, but we need to do this to incorporate it into the filename
             // unix timestamps are a pretty "good enough" strat for unique filenames
@@ -32,7 +31,6 @@ if (Meteor.isServer)
             encoding = encoding || 'binary';
             chroot = Meteor.chroot || rootPath;
         
-            // TODO Add file existance checks, etc...
             // synchronous because we want databases to be updated when the upload finishes
             fs.writeFileSync(chroot + name, blob, encoding, (err) => {
                 if (err) {
@@ -55,7 +53,10 @@ if (Meteor.isServer)
             });
         },
 
+        // Creates a visualization using the specified tool
         // paramsObject: a JSON object of parameters
+        // these parameters are shown in NewVisualization.js
+        // they essentially are a list of command line parameters that each tool expects as input
         invokeProcess(user, visualizationId, paramObject) {
             console.log(user);
             console.log(visualizationId);
@@ -115,6 +116,11 @@ if (Meteor.isServer)
             });
         },
 
+        // creates a directory tree for user data:
+        // users
+        //   - <username>
+        //       - data (to store uploaded datasets)
+        //       - visualizations (to store generated visualization files)
         // username: str
         createUserDirectories(username) {
             if (!username) return;
@@ -141,6 +147,7 @@ if (Meteor.isServer)
             });
         },
 
+        // backend database write to save a visualization
         // visualizationInfo: {
         //     createdBy: str
         //     createdAt: str
@@ -156,6 +163,7 @@ if (Meteor.isServer)
             });
         },
 
+        // backend database write to share a visualization
         shareVisualization(sharedWith, visualizationId) {
             // add entry to shares database if not present
             let userShares = Shares.find({username: sharedWith}).fetch();
@@ -176,6 +184,7 @@ if (Meteor.isServer)
             );
         },
 
+        // checks if the user exits in the database
         userExists(username) {
             let users = Meteor.users.find({}).fetch();
             for (let i = 0; i < users.length; i++) {
@@ -185,16 +194,19 @@ if (Meteor.isServer)
             return false;
         },
 
+        // deletes a visualization with the specified ID
         deleteVisualization(visualizationId) {
             Visualizations.remove({createdAt: visualizationId});
         },
 
+        // Undoes a deletion event. Unused.
         undoDeletion(visualizationInfo) {
             Visualizations.insert(visualizationInfo);
         }
     });
 }
 
+// callback for process invocation in invokeProcess
 invocationCallback = (error, stdout, stderr) => {
     if (error) {
       console.error(`\n========== ERROR OUTPUT ==========\n\n${error.message}`);

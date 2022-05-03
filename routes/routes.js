@@ -7,6 +7,7 @@ import { Template } from "meteor/templating";
 import "/imports/common/common.html";
 import "/imports/common/common.js";
 
+// specific routes for each bit of functionality of the website
 import "/imports/Index/Index.html";
 FlowRouter.route("/", {
     name: "index",
@@ -46,6 +47,7 @@ FlowRouter.route("/view/:_index", {
     }
 });
 
+// show the 404 page
 FlowRouter.route("*", {
     action() {
         BlazeLayout.render("404");
@@ -54,6 +56,7 @@ FlowRouter.route("*", {
     }
 });
 
+// redirect the user to the index page when they log in and log out
 Accounts.onLogin(() => {
     FlowRouter.go("index");
 });

@@ -10,6 +10,7 @@ import { Comms } from "/imports/api/comms";
 import HugeUploader from "huge-uploader";
 
 // imagePaths: list
+// places an image on the page
 function displayImage(imagePaths) {
     let imagePane = document.getElementById("imagePane");
     imagePane.textContent = "";
@@ -22,6 +23,8 @@ function displayImage(imagePaths) {
     });
 }
 
+// used to determine which messages from the Comms collection should be ignored
+// older messages do not have any bearing on the current page
 const startupTime = new Date().getTime();
 
 let selectedTool = new ReactiveVar(null);
@@ -29,6 +32,8 @@ let uploadedFile = new ReactiveVar(null);
 let visualizationInfo = new ReactiveVar(null);
 let canSave = new ReactiveVar(null);
 
+// parameters for each subtyping tool
+// these are passed to the backend to generate the visualizaitons
 const toolParams = [
     {
         toolName: "SNFTool",
@@ -60,6 +65,8 @@ Meteor.subscribe("comms", {
     onStop:  (param) => { console.log("subscribe onStop / "  + param); }
 });
 
+// adds a listener to the Comms colleciton
+// When a message comes in, this listener will respond appropriately to the messgae
 let msgs = Comms.find();
 msgs.observe({
     added: (entry) => {
@@ -71,6 +78,7 @@ msgs.observe({
             case "process-invocation":
                 console.log("process invoked");
                 break;
+            // enables saving when visualization are done geneating
             case "visualization":
                 console.log("visualization ready");
                 displayImage(entry.images);
@@ -87,6 +95,7 @@ msgs.observe({
                 let saveButton = document.getElementById("saveButton");
                 saveButton.removeAttribute("disabled");
                 break;
+            // enables the generation of a visualization when file uploading is complete
             case "file-upload-complete":
                 console.log("file upload complete");
                 uploadedFile.set(
@@ -107,6 +116,7 @@ msgs.observe({
 
 
 /// newVisualization
+// initialize reactive variables
 Template.newVisualization.onCreated(() => {
     selectedTool.set(0);
     uploadedFile.set({
@@ -121,6 +131,7 @@ Template.newVisualization.onCreated(() => {
     canSave.set(false);
 });
 
+// unused test function
 Template.newVisualization.helpers({
     res() {
         return EJSON.stringify(Meteor.user());
@@ -131,6 +142,7 @@ Template.newVisualization.helpers({
 
 /// saveVisualization
 Template.saveVisualization.events({
+    // saves a visualization to the database
     "click button": (event, instance) => {
         // grab name and description
         let name = document.getElementById("visualizationName");
@@ -163,6 +175,7 @@ Template.saveVisualization.events({
         // downloadButton.removeAttribute("disabled");
     },
 
+    // unused test event
     "input #visualizationName": (event, instance) => {
         console.log(event);
         console.log(event.target);
@@ -172,6 +185,7 @@ Template.saveVisualization.events({
 
 
 /// TESTMKDIR
+// unused test event
 Template.testMkdir.events({
     "click button": (event, instance) => {
         Meteor.call("createUserDirectories", "test_user");
@@ -181,6 +195,8 @@ Template.testMkdir.events({
 
 /// FILEUPLOAD
 Template.fileUpload.events({
+    // uploads a user-submitted file to the backend
+    // ensures that the file is an .RData file
     "change input": (ev) => {
         let progressBar = document.getElementById("fileUpload-progress");
         let file = ev.currentTarget.files[0];
@@ -237,6 +253,7 @@ Template.fileUpload.events({
 
 /// INVOKESCRIPT
 Template.invokeScript.events({
+    // generates a visualization
     "click button"(event, instance) {
         let progressBar = document.getElementById("invokeScript-spinner");
         progressBar.setAttribute("class", "spinner-border btn");
@@ -260,12 +277,13 @@ Template.invokeScript.events({
 
 
 /// TOOLS
-// todo make sure these indices are consistent with the switch staement in the generate visualization thingy
+// facilitates the dropdown menu for tool selection
 Template.tools.helpers({
     toolNames: toolParams.map(t => {return {name: t.toolName}; })
 });
 
 Template.tools.events({
+    // maeks sure the correct subtyping tool is invoked
     "change select"(event, instance) {
         let select = document.getElementById("toolSelection");
         selectedTool.set(select.options.selectedIndex);
@@ -275,6 +293,7 @@ Template.tools.events({
 
 /// DOWNLOAD
 Template.downloadVisualizationNewPage.events({
+    // downloads a visualization
     "click button": (event, instance) => {
         // instance has a data field: this is the data that is passed to the template in the html template
         // here, it is the visualization ID
@@ -282,7 +301,7 @@ Template.downloadVisualizationNewPage.events({
     }
 });
 
-
+// helps save a file to the backend
 saveFile = (username, blob, name, path, type, callback) => {
     let fileReader = new FileReader();
     let method;

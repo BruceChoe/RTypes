@@ -13,6 +13,7 @@ Meteor.subscribe("visualizations", {
 });
 
 Template.savedVisualization.helpers({
+    // loads all of the user's saved visualizations
     savedVisualizations: () => {
         let user = Meteor.user();
         if (!user)
@@ -32,6 +33,7 @@ Template.savedVisualization.helpers({
         });
     },
 
+    // loads all visualizations shared with the user
     sharedVisualizations: () => {
         let user = Meteor.user();
         if (!user)
