@@ -6,6 +6,9 @@ dataPath = args[7]
 resultPath = args[8]
 load(paste(dataPath, dataset, ".RData" ,sep=""))
   
+#Start: Code Integration
+#This format of data organization was code integrated from Dr.Nguyen's lab
+#load data into dataList
 patients=rownames(survival)
 patients=intersect(patients,rownames(mydatGE))
 patients=intersect(patients,rownames(mydatME))
@@ -14,7 +17,9 @@ mydatGE=mydatGE[patients,]
 mydatME=mydatME[patients,]
 mydatMI=mydatMI[patients,]
 survival=survival[patients,]
-  
+#End integration 
+
+#Write to CSV file
 write.csv(mydatGE, file = paste(resultPath,dataset,"_GE.csv", sep=""))
 write.csv(mydatGE, file = paste(resultPath,dataset,"_GE.csv", sep=""))
 write.csv(mydatME, file = paste(resultPath,dataset,"_ME.csv", sep=""))
