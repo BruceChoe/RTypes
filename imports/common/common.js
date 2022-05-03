@@ -33,7 +33,6 @@ Template.sidebarSharedWithMe.helpers({
         let visualizations = [];
         for (let i = 0; i < sharedVisualizations[0].shares.length; i++)
         {
-            // nightmare nightmare nightmare
             visualizations.push(Visualizations.find({createdAt: sharedVisualizations[0].shares[i]}).fetch()[0]);
         }
         console.log(visualizations);
