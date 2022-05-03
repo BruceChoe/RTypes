@@ -21,9 +21,10 @@ survival=survival[patients,]
 #End: Code  Integration
 
 dataList <- list(mydatGE, mydatME, mydatMI)
-singleResult <- PerturbationClustering(mydatGE)
-subtypeResults <- SubtypingOmicsData(dataList = dataList)
+singleResult <- PerturbationClustering(mydatGE) #Clustering on individual gene expression matrix
+subtypeResults <- SubtypingOmicsData(dataList = dataList) #Subtype all matrices
 
+# Function to generate PCA plot for given PCA data and dataset
 pca_generate.function <- function(pca_x, cluster, dataset, matrix_name) {
   plot(
     prcomp(x = pca_x)$x,
@@ -37,6 +38,7 @@ pca_generate.function <- function(pca_x, cluster, dataset, matrix_name) {
   )
 }
 
+#Generate PCA plot for GE dataset
 png(paste(resultPath, "PINSPlus_", dataset, "_GE",".png", sep=""),   
     width     = 3.25,
     height    = 3.25,
@@ -46,6 +48,7 @@ png(paste(resultPath, "PINSPlus_", dataset, "_GE",".png", sep=""),
 pca_generate.function(subtypeResults$dataTypeResult[[1]]$pca$x, subtypeResults$dataTypeResult[[1]]$cluster, dataset, "GE")
 dev.off()
 
+#Generate PCA plot for ME dataset
 png(paste(resultPath, "PINSPlus_", dataset, "_ME",".png", sep=""),   
     width     = 3.25,
     height    = 3.25,
@@ -55,6 +58,7 @@ png(paste(resultPath, "PINSPlus_", dataset, "_ME",".png", sep=""),
 pca_generate.function(subtypeResults$dataTypeResult[[2]]$pca$x, subtypeResults$dataTypeResult[[2]]$cluster, dataset, "ME")
 dev.off()
 
+#Generate PCA plot for MI dataset
 png(paste(resultPath, "PINSPlus_", dataset, "_MI",".png", sep=""),   
     width     = 3.25,
     height    = 3.25,
@@ -84,6 +88,8 @@ coxFit <- coxph(
 )
 mfit <- survfit(Surv(Survival, Death == 1) ~ as.factor(cluster2), data = survival)
 #End: Code Integration
+
+#Visualize cos-proportional-hazards survival model
 png(paste(resultPath, "PINSPlus_Survival_", dataset, ".png", sep=""),   
     width     = 3.25,
     height    = 3.25,
